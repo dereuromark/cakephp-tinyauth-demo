@@ -70,7 +70,7 @@ jobs:
       uses: ramsey/composer-install@v4
 
     - name: Run PHP CodeSniffer
-      run: vendor/bin/phpcs --report=checkstyle | cs2pr
+      run: vendor/bin/phpcs -n --report=checkstyle | cs2pr
 
     - name: Run phpstan
       if: always()
