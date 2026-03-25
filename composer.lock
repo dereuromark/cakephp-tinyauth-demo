@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ae49daa46cc1a1edce0de76d5518b24",
+    "content-hash": "e71e416835d19c973192968387fed746",
     "packages": [
         {
             "name": "cakephp/authorization",
@@ -552,16 +552,16 @@
         },
         {
             "name": "dereuromark/cakephp-tinyauth-backend",
-            "version": "dev-feature/plugin-skeleton-migration",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-tinyauth-backend.git",
-                "reference": "9fcd44c3d6ff8d33946d7d6e0e4b0fcab0cf6e74"
+                "reference": "a33abdd14fb62e2e105509148dba8dc530b42395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/9fcd44c3d6ff8d33946d7d6e0e4b0fcab0cf6e74",
-                "reference": "9fcd44c3d6ff8d33946d7d6e0e4b0fcab0cf6e74",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/a33abdd14fb62e2e105509148dba8dc530b42395",
+                "reference": "a33abdd14fb62e2e105509148dba8dc530b42395",
                 "shasum": ""
             },
             "require": {
@@ -575,6 +575,7 @@
                 "fig-r/psr2r-sniffer": "dev-master",
                 "phpunit/phpunit": "^11.5 || ^12.1 || ^13.0"
             },
+            "default-branch": true,
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
@@ -639,7 +640,7 @@
                 "source": "https://github.com/dereuromark/cakephp-tinyauth-backend",
                 "issues": "https://github.com/dereuromark/cakephp-tinyauth-backend/issues"
             },
-            "time": "2026-03-25T16:50:21+00:00"
+            "time": "2026-03-25T20:15:33+00:00"
         },
         {
             "name": "dereuromark/cakephp-tools",
