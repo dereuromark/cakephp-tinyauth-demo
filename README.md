@@ -11,7 +11,7 @@ A demo application showcasing [TinyAuth](https://github.com/dereuromark/cakephp-
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.2+
 - MySQL/MariaDB
 - [DDEV](https://ddev.com/) (recommended) or any local development environment
 
