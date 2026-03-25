@@ -159,10 +159,16 @@ $roleColors = ['user' => '#4caf50', 'moderator' => '#ff9800', 'admin' => '#f4433
         <!-- Documentation -->
         <div style="background: #e0f7fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #00bcd4;">
             <h3 style="margin-top: 0; color: #00838f;">Documentation</h3>
-            <p>
-                <a href="/admin/auth/dashboard/concepts" style="font-weight: bold;">TinyAuth Concepts</a>
-                - Learn how ACL, Allow, Roles, Resources, and Scopes work together.
-            </p>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 0.5rem;">
+                    <a href="/admin/auth/dashboard/concepts" style="font-weight: bold;">TinyAuth Concepts</a>
+                    - How ACL, Allow, Roles, Resources, and Scopes work
+                </li>
+                <li>
+                    <a href="https://github.com/dereuromark/cakephp-tinyauth-backend/tree/master/docs" target="_blank">Full Documentation</a>
+                    - GitHub docs
+                </li>
+            </ul>
         </div>
 
     </div>
