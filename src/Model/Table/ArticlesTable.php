@@ -13,7 +13,6 @@ use Cake\Validation\Validator;
  * Demonstrates TinyAuth resource-level permissions with "own" scope.
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- *
  * @method \App\Model\Entity\Article newEmptyEntity()
  * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Article> newEntities(array $data, array $options = [])
@@ -23,7 +22,6 @@ use Cake\Validation\Validator;
  * @method array<\App\Model\Entity\Article> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table

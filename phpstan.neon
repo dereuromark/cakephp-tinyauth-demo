@@ -8,7 +8,5 @@ parameters:
 	ignoreErrors:
 		# CakePHP ORM dynamic property access for view layer
 		- '#Cannot access property \$can(Edit|Delete) on array\|Cake\\Datasource\\EntityInterface#'
-		# CakePHP Table association intersection types
-		- '#PHPDoc tag @property for property .+ contains unresolvable type#'
 		# TinyAuth Role entity parent_id access
 		- '#Access to an undefined property Cake\\Datasource\\EntityInterface::\$parent_id#'
