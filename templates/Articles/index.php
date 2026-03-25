@@ -95,7 +95,9 @@
                         </td>
                         <td style="padding: 0.75rem; border-bottom: 1px solid #eee;">
                             <?= $this->Html->link('View', ['action' => 'view', $article->id], ['style' => 'margin-right: 0.5rem;']) ?>
-                            <?= $this->Html->link('Edit', ['action' => 'edit', $article->id], ['style' => 'margin-right: 0.5rem;']) ?>
+                            <?php if ($article->canEdit) { ?>
+                                <?= $this->Html->link('Edit', ['action' => 'edit', $article->id], ['style' => 'margin-right: 0.5rem;']) ?>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
