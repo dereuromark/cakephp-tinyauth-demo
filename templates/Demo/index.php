@@ -24,8 +24,13 @@ $roleColors = ['user' => '#4caf50', 'moderator' => '#ff9800', 'admin' => '#f4433
 
 <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
     <h1>TinyAuth Backend Demo</h1>
-    <p style="color: #666; margin-bottom: 2rem;">
+    <p style="color: #666; margin-bottom: 1rem;">
         Interactive demo for testing TinyAuth features. Switch roles, users, and feature toggles to see how permissions work.
+    </p>
+    <p style="margin-bottom: 2rem;">
+        <a href="https://github.com/dereuromark/cakephp-tinyauth-backend" target="_blank" style="margin-right: 1rem;">GitHub</a>
+        <a href="https://github.com/dereuromark/cakephp-tinyauth-backend/blob/master/docs/README.md" target="_blank" style="margin-right: 1rem;">Documentation</a>
+        <a href="https://github.com/dereuromark/cakephp-tinyauth" target="_blank" style="margin-right: 1rem;">TinyAuth Core</a>
     </p>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
@@ -153,6 +158,23 @@ $roleColors = ['user' => '#4caf50', 'moderator' => '#ff9800', 'admin' => '#f4433
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li style="margin-bottom: 0.5rem;"><a href="/articles"><strong>Articles</strong></a> - "own" scope demo</li>
                 <li style="margin-bottom: 0.5rem;"><a href="/projects"><strong>Projects</strong></a> - "team" scope demo</li>
+            </ul>
+        </div>
+
+        <!-- Documentation -->
+        <div style="background: #e0f7fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #00bcd4;">
+            <h3 style="margin-top: 0; color: #00838f;">Documentation</h3>
+            <?php $docsBase = 'https://github.com/dereuromark/cakephp-tinyauth-backend/blob/master/docs'; ?>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/README.md" target="_blank">Getting Started</a></li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Acl.md" target="_blank">ACL Management</a> - Permission matrix</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Allow.md" target="_blank">Allow Management</a> - Public actions</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Roles.md" target="_blank">Roles</a> - Role hierarchy</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Resources.md" target="_blank">Resources</a> - Entity-level auth</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Scopes.md" target="_blank">Scopes</a> - Permission conditions</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Services.md" target="_blank">Services</a> - Programmatic API</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Authorization.md" target="_blank">Authorization</a> - CakePHP integration</li>
+                <li style="margin-bottom: 0.5rem;"><a href="<?= $docsBase ?>/Authentication.md" target="_blank">Authentication</a> - Auth strategies</li>
             </ul>
         </div>
 
