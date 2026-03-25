@@ -91,6 +91,38 @@ The admin interface provides:
 - **Resources**: Entity-level permissions (optional)
 - **Scopes**: Permission scopes (optional)
 
+## Screenshots
+
+### Dashboard
+Overview of your authorization setup at a glance.
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### ACL Permissions
+Manage which roles can access each controller action.
+
+![ACL](docs/screenshots/acl.png)
+
+### Public Actions (Allow)
+Configure which actions are publicly accessible without authentication.
+
+![Allow](docs/screenshots/allow.png)
+
+### Roles
+Define and organize your role hierarchy.
+
+![Roles](docs/screenshots/roles.png)
+
+### Resources
+Entity-level permissions with scoped access (e.g., users can only edit their own articles).
+
+![Resources](docs/screenshots/resources.png)
+
+### Scopes
+Reusable conditions for fine-grained entity access control.
+
+![Scopes](docs/screenshots/scopes.png)
+
 ## Testing Permissions
 
 1. Visit the home page
