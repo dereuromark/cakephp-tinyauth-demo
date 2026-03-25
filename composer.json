@@ -10,7 +10,7 @@
         "cakephp/cakephp": "5.3.*",
         "cakephp/migrations": "^5.0",
         "cakephp/plugin-installer": "^2.0",
-        "dereuromark/cakephp-tinyauth-backend": "dev-feature/plugin-skeleton-migration",
+        "dereuromark/cakephp-tinyauth-backend": "dev-master",
         "dereuromark/cakephp-tools": "^3.0",
         "mobiledetect/mobiledetectlib": "^4.8.03"
     },
