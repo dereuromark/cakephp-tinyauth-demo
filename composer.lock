@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-tinyauth-backend.git",
-                "reference": "a33abdd14fb62e2e105509148dba8dc530b42395"
+                "reference": "1ef4e01a56c64a8fb0b4ce0f061bcd959142b21c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/a33abdd14fb62e2e105509148dba8dc530b42395",
-                "reference": "a33abdd14fb62e2e105509148dba8dc530b42395",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/1ef4e01a56c64a8fb0b4ce0f061bcd959142b21c",
+                "reference": "1ef4e01a56c64a8fb0b4ce0f061bcd959142b21c",
                 "shasum": ""
             },
             "require": {
@@ -640,7 +640,7 @@
                 "source": "https://github.com/dereuromark/cakephp-tinyauth-backend",
                 "issues": "https://github.com/dereuromark/cakephp-tinyauth-backend/issues"
             },
-            "time": "2026-03-25T20:15:33+00:00"
+            "time": "2026-03-25T21:37:59+00:00"
         },
         {
             "name": "dereuromark/cakephp-tools",
