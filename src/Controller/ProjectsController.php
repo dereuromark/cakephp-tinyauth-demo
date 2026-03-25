@@ -22,6 +22,7 @@ use Cake\Http\Response;
  * - "team" scope: team_id === current_user.team_id
  *
  * @property \App\Model\Table\ProjectsTable $Projects
+ * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
  */
 class ProjectsController extends AppController {
 
@@ -168,9 +169,9 @@ class ProjectsController extends AppController {
 	 * @param int $id Project ID
 	 * @throws \Cake\Http\Exception\NotFoundException
 	 * @throws \Cake\Http\Exception\ForbiddenException
-	 * @return \Cake\Http\Response
+	 * @return \Cake\Http\Response|null
 	 */
-	public function delete(int $id): Response {
+	public function delete(int $id): ?Response {
 		$this->request->allowMethod(['post', 'delete']);
 		$this->DemoAuth->requireAuthorization();
 

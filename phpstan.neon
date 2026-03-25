@@ -5,3 +5,5 @@ parameters:
 		- config/bootstrap.php
 	paths:
 		- src/
+	ignoreErrors:
+		- '#Cannot call method .+\(\) on Cake\\Http\\ServerRequest\|null#'

@@ -8,6 +8,7 @@ A demo application showcasing [TinyAuth](https://github.com/dereuromark/cakephp-
 - **TinyAuth Backend** admin interface at `/admin/auth/`
 - **Role simulation** for testing different permission levels
 - **Demo controllers** showing protected and public actions
+- **Resource-level permissions** with scoped access (entity-level authorization)
 
 ## Requirements
 
@@ -43,7 +44,7 @@ ddev exec bin/cake migrations migrate -p TinyAuthBackend
 # Sync controllers to TinyAuth database
 ddev exec bin/cake tiny_auth_backend sync
 
-# Seed demo data (roles, scopes, public actions)
+# Seed demo data (roles, scopes, users, resources, articles, projects)
 ddev exec bin/cake seed_demo_data
 
 # Visit the app
@@ -60,11 +61,94 @@ The demo includes three roles with hierarchical permissions:
 | moderator | 2 | Access to reports and moderation features |
 | user | 3 | Basic user access |
 
+## Demo Users
+
+The seeder creates sample users for testing resource permissions:
+
+| User | Role | Team | Purpose |
+|------|------|------|---------|
+| alice | User | Engineering | Test "own" scope - owns some articles/projects |
+| bob | User | Engineering | Same team as Alice - test "team" scope |
+| charlie | User | Marketing | Different team - test cross-team restrictions |
+| diana | Moderator | Sales | Higher role with broader permissions |
+| admin | Admin | None | Full access to everything |
+
 ## URLs
 
 - **Home**: `/` - Shows current role and available actions
 - **TinyAuth Admin**: `/admin/auth/` - Permission management interface
 - **Role Switcher**: Use the dropdown on the home page to simulate different roles
+- **Articles Demo**: `/articles` - Resource permissions with "own" scope
+- **Projects Demo**: `/projects` - Resource permissions with "team" scope
+
+## Resource-Level Permissions Demo
+
+TinyAuth Backend supports entity-level permissions beyond controller/action ACL. This demo showcases two examples:
+
+### Articles (Own Scope)
+
+Demonstrates permissions where users can only edit/delete their own content:
+
+| Role | View | Edit | Delete |
+|------|------|------|--------|
+| User | All | Own only | Own only |
+| Moderator | All | All | Own only |
+| Admin | All | All | All |
+
+**How it works:** The "own" scope compares `article.user_id` with `user.id`.
+
+### Projects (Team Scope)
+
+Demonstrates team-based access where users can access content from their team:
+
+| Role | View | Edit | Delete |
+|------|------|------|--------|
+| User | Team only | Own only | None |
+| Moderator | All | Team only | Own only |
+| Admin | All | All | All |
+
+**How it works:** The "team" scope compares `project.team_id` with `user.team_id`.
+
+## Demo Scopes
+
+Scopes define conditions for entity-level access control. The seeder creates these scopes:
+
+| Scope | Entity Field | User Field | Use Case |
+|-------|-------------|------------|----------|
+| `own` | `user_id` | `id` | User can only access their own records |
+| `team` | `team_id` | `team_id` | User can access records from their team |
+| `department` | `department_id` | `department_id` | Department-based access |
+| `company` | `company_id` | `company_id` | Company-wide access |
+
+### How Scopes Work
+
+When a role has a resource permission with a scope attached, the condition is evaluated:
+
+```
+entity.{entity_field} === user.{user_field}
+```
+
+Example: A "user" role with "edit" ability on "Articles" with "own" scope means:
+- User can edit articles where `article.user_id === user.id`
+
+Without a scope, the permission grants access to all entities.
+
+## Testing Resource Permissions
+
+1. Visit the home page and select a role (e.g., "User")
+2. Select a user identity (e.g., "alice" - User ID 1, Team ID 1)
+3. Navigate to `/articles`:
+   - You'll see all articles (view: no scope restriction)
+   - Only articles you own will show edit/delete options
+4. Navigate to `/projects`:
+   - You'll only see projects from your team
+   - Only your own projects can be edited
+
+Try switching between users to see how permissions change:
+- **alice** (Engineering): Can see Engineering projects, edit own
+- **bob** (Engineering): Same team as Alice, can see same projects
+- **charlie** (Marketing): Different team, sees only Marketing projects
+- **diana** (Moderator): Can see all projects, edit within her team
 
 ## Configuration
 
@@ -88,8 +172,8 @@ The admin interface provides:
 - **ACL**: Manage role-based permissions per action
 - **Allow**: Configure public (unauthenticated) actions
 - **Roles**: Manage role definitions
-- **Resources**: Entity-level permissions (optional)
-- **Scopes**: Permission scopes (optional)
+- **Resources**: Entity-level permissions (with scope support)
+- **Scopes**: Define reusable conditions for entity access
 
 ## Screenshots
 
@@ -123,39 +207,38 @@ Reusable conditions for fine-grained entity access control.
 
 ![Scopes](docs/screenshots/scopes.png)
 
-## Testing Permissions
+## Implementation Guide
 
-1. Visit the home page
-2. Use the role switcher to select a role (user, moderator, or admin)
-3. Try accessing different pages:
-   - `/dashboard/stats` - Public (allowed for all)
-   - `/reports/usage` - Public
-   - `/reports/audit` - Protected (admin only by default)
-   - `/admin/users` - Protected (admin only)
+### Using TinyAuthService in Controllers
 
-## Demo Scopes
+```php
+use TinyAuthBackend\Service\TinyAuthService;
 
-Scopes define conditions for entity-level access control. The seeder creates these scopes:
+// Check if user can access specific entity
+$service = new TinyAuthService();
+$canEdit = $service->canAccess(
+    $userRoleAlias,    // e.g., 'User'
+    'Article',         // Resource name
+    'edit',            // Ability
+    $article,          // Entity being accessed
+    $user              // Current user
+);
 
-| Scope | Entity Field | User Field | Use Case |
-|-------|-------------|------------|----------|
-| `own` | `user_id` | `id` | User can only access their own records |
-| `team` | `team_id` | `team_id` | User can access records from their team |
-| `department` | `department_id` | `department_id` | Department-based access |
-| `company` | `company_id` | `company_id` | Company-wide access |
-
-### How Scopes Work
-
-When a role has a resource permission with a scope attached, the condition is evaluated:
-
-```
-entity.{entity_field} === user.{user_field}
+// Get scope conditions for query filtering
+$conditions = $service->getScopeCondition(
+    $userRoleAlias,
+    'Article',
+    'view',
+    $user
+);
+// Returns: null (no access), [] (full access), or ['user_id' => 1] (scoped)
 ```
 
-Example: A "user" role with "edit" ability on "Articles" with "own" scope means:
-- User can edit articles where `article.user_id === user.id`
+### Permission Checking Flow
 
-Without a scope, the permission grants access to all entities.
+1. **Controller/Action level**: TinyAuth ACL checks if role can access the action
+2. **Entity level**: Your controller uses TinyAuthService to check resource permissions
+3. **Query filtering**: Use scope conditions to filter database queries
 
 ## License
 

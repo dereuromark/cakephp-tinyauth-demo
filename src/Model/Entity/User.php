@@ -13,8 +13,11 @@ use Cake\ORM\Entity;
  * @property string $email
  * @property string $password
  * @property int $role_id
+ * @property int|null $team_id
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
+ *
+ * @property \App\Model\Entity\Team|null $team
  */
 class User extends Entity
 {
@@ -32,8 +35,10 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'role_id' => true,
+        'team_id' => true,
         'created' => true,
         'modified' => true,
+        'team' => true,
     ];
 
     /**

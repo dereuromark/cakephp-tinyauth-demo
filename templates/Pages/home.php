@@ -152,6 +152,51 @@ endif;
                             </p>
                         </div>
 
+                        <!-- User Switcher for Resource Permissions -->
+                        <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #9c27b0;">
+                            <h4 style="margin-top: 0;">Switch User (Resource Permissions Demo)</h4>
+                            <?php
+                            $currentUserId = $session->read('Auth.user_id');
+                            $currentUsername = $session->read('Auth.username');
+                            $currentTeamId = $session->read('Auth.team_id');
+                            ?>
+                            <?php if ($currentUserId) { ?>
+                                <p style="margin-bottom: 1rem;">
+                                    <strong>Current User:</strong>
+                                    <span style="background: #9c27b0; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: bold;">
+                                        <?= h($currentUsername) ?> (ID: <?= $currentUserId ?>, Team: <?= $currentTeamId ?? 'None' ?>)
+                                    </span>
+                                </p>
+                            <?php } ?>
+
+                            <p style="margin-bottom: 0.5rem;"><strong>Select User Identity:</strong></p>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                                <?php
+                                $demoUsers = [
+                                    ['id' => 1, 'name' => 'alice', 'role' => 'User', 'team' => 'Engineering', 'color' => '#4caf50'],
+                                    ['id' => 2, 'name' => 'bob', 'role' => 'User', 'team' => 'Engineering', 'color' => '#4caf50'],
+                                    ['id' => 3, 'name' => 'charlie', 'role' => 'User', 'team' => 'Marketing', 'color' => '#2196f3'],
+                                    ['id' => 4, 'name' => 'diana', 'role' => 'Mod', 'team' => 'Sales', 'color' => '#ff9800'],
+                                    ['id' => 5, 'name' => 'admin', 'role' => 'Admin', 'team' => 'None', 'color' => '#f44336'],
+                                ];
+                                foreach ($demoUsers as $user) {
+                                    $isSelected = $currentUserId == $user['id'];
+                                    echo $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switchUser'], 'style' => 'display: inline; margin: 0;']);
+                                    echo $this->Form->hidden('user_id', ['value' => $user['id']]);
+                                    echo '<button type="submit" style="background: ' . $user['color'] . '; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; ' . ($isSelected ? 'outline: 2px solid #333;' : '') . '">';
+                                    echo h($user['name']) . '<br><small>' . h($user['role']) . ' / ' . h($user['team']) . '</small>';
+                                    echo '</button>';
+                                    echo $this->Form->end();
+                                }
+                                ?>
+                            </div>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                                Select a user to test resource-level permissions. Try the
+                                <a href="/articles">Articles</a> (own scope) and
+                                <a href="/projects">Projects</a> (team scope) demos.
+                            </p>
+                        </div>
+
                         <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
                             <h4 style="margin-top: 0;">Admin Panel</h4>
                             <p style="margin-bottom: 1rem;">Entry point: <a href="/admin/auth" style="font-weight: bold;">/admin/auth</a> (Dashboard)</p>
@@ -211,6 +256,18 @@ endif;
                                 <li style="margin-bottom: 0.5rem;">
                                     <a href="/admin/users">Admin: Users</a>
                                     - Requires admin role only
+                                </li>
+                            </ul>
+
+                            <h4 style="margin-top: 1.5rem;">Resource Permissions Demo (Entity-Level)</h4>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 0.5rem;">
+                                    <a href="/articles" style="color: #9c27b0; font-weight: bold;">Articles</a>
+                                    - Demonstrates "own" scope (users can edit/delete only their own articles)
+                                </li>
+                                <li style="margin-bottom: 0.5rem;">
+                                    <a href="/projects" style="color: #9c27b0; font-weight: bold;">Projects</a>
+                                    - Demonstrates "team" scope (users can view projects from their team)
                                 </li>
                             </ul>
 

@@ -7,6 +7,8 @@ namespace App\Controller;
  * Dashboard Controller
  *
  * This controller requires authentication (any logged-in user can access)
+ *
+ * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
  */
 class DashboardController extends AppController {
 

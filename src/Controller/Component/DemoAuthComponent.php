@@ -160,4 +160,97 @@ class DemoAuthComponent extends Component {
 		];
 	}
 
+	/**
+	 * Get the current simulated user entity.
+	 *
+	 * Creates a user-like entity with role info for resource permission checks.
+	 *
+	 * @return \Cake\ORM\Entity|null
+	 */
+	public function getCurrentUser(): ?\Cake\ORM\Entity {
+		$session = $this->getController()->getRequest()->getSession();
+		$roleId = $session->read('Auth.role_id');
+		$userId = $session->read('Auth.user_id');
+		$teamId = $session->read('Auth.team_id');
+
+		if (!$roleId) {
+			return null;
+		}
+
+		// Create a simple entity to represent the user
+		$user = new \Cake\ORM\Entity([
+			'id' => $userId ?? 1, // Default user ID for demo
+			'role_id' => $roleId,
+			'team_id' => $teamId,
+		]);
+
+		return $user;
+	}
+
+	/**
+	 * Get the current user's role alias for TinyAuthService.
+	 *
+	 * @return string|null
+	 */
+	public function getCurrentRoleAlias(): ?string {
+		$session = $this->getController()->getRequest()->getSession();
+		$roleId = $session->read('Auth.role_id');
+
+		if (!$roleId) {
+			return null;
+		}
+
+		$rolesTable = TableRegistry::getTableLocator()->get('TinyAuthBackend.Roles');
+		$role = $rolesTable->find()->where(['id' => $roleId])->first();
+
+		return $role ? $role->alias : null;
+	}
+
+	/**
+	 * Check if current user can access a resource with given ability.
+	 *
+	 * Uses TinyAuthService to check resource-level permissions with scopes.
+	 *
+	 * @param \Cake\Datasource\EntityInterface $entity The entity to check access for
+	 * @param string $ability The ability (view, edit, delete, etc.)
+	 * @param string $resourceName The resource name (Article, Project, etc.)
+	 * @return bool
+	 */
+	public function canAccessResource(
+		\Cake\Datasource\EntityInterface $entity,
+		string $ability,
+		string $resourceName,
+	): bool {
+		$roleAlias = $this->getCurrentRoleAlias();
+		$user = $this->getCurrentUser();
+
+		if (!$roleAlias || !$user) {
+			return false;
+		}
+
+		$service = new \TinyAuthBackend\Service\TinyAuthService();
+
+		return $service->canAccess($roleAlias, $resourceName, $ability, $entity, $user);
+	}
+
+	/**
+	 * Get scope conditions for query filtering.
+	 *
+	 * @param string $resourceName The resource name
+	 * @param string $ability The ability
+	 * @return array|null Null = no access, empty = full access, array = conditions
+	 */
+	public function getScopeConditions(string $resourceName, string $ability): ?array {
+		$roleAlias = $this->getCurrentRoleAlias();
+		$user = $this->getCurrentUser();
+
+		if (!$roleAlias || !$user) {
+			return null;
+		}
+
+		$service = new \TinyAuthBackend\Service\TinyAuthService();
+
+		return $service->getScopeCondition($roleAlias, $resourceName, $ability, $user);
+	}
+
 }

@@ -7,6 +7,8 @@ namespace App\Controller;
  * Reports Controller
  *
  * This controller requires moderator or higher role
+ *
+ * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
  */
 class ReportsController extends AppController {
 

@@ -18,6 +18,7 @@ use Cake\Http\Response;
  * - admin: full access
  *
  * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
  */
 class ArticlesController extends AppController {
 
@@ -167,9 +168,9 @@ class ArticlesController extends AppController {
 	 * @param int $id Article ID
 	 * @throws \Cake\Http\Exception\NotFoundException
 	 * @throws \Cake\Http\Exception\ForbiddenException
-	 * @return \Cake\Http\Response
+	 * @return \Cake\Http\Response|null
 	 */
-	public function delete(int $id): Response {
+	public function delete(int $id): ?Response {
 		$this->request->allowMethod(['post', 'delete']);
 		$this->DemoAuth->requireAuthorization();
 

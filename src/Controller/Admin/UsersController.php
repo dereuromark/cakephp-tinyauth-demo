@@ -9,6 +9,8 @@ use App\Controller\AppController;
  * Admin Users Controller
  *
  * This controller requires admin role
+ *
+ * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
  */
 class UsersController extends AppController {
 
