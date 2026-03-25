@@ -43,6 +43,9 @@ ddev exec bin/cake migrations migrate -p TinyAuthBackend
 # Sync controllers to TinyAuth database
 ddev exec bin/cake tiny_auth_backend sync
 
+# Seed demo data (roles, scopes, public actions)
+ddev exec bin/cake seed_demo_data
+
 # Visit the app
 ddev launch
 ```
@@ -97,6 +100,30 @@ The admin interface provides:
    - `/reports/usage` - Public
    - `/reports/audit` - Protected (admin only by default)
    - `/admin/users` - Protected (admin only)
+
+## Demo Scopes
+
+Scopes define conditions for entity-level access control. The seeder creates these scopes:
+
+| Scope | Entity Field | User Field | Use Case |
+|-------|-------------|------------|----------|
+| `own` | `user_id` | `id` | User can only access their own records |
+| `team` | `team_id` | `team_id` | User can access records from their team |
+| `department` | `department_id` | `department_id` | Department-based access |
+| `company` | `company_id` | `company_id` | Company-wide access |
+
+### How Scopes Work
+
+When a role has a resource permission with a scope attached, the condition is evaluated:
+
+```
+entity.{entity_field} === user.{user_field}
+```
+
+Example: A "user" role with "edit" ability on "Articles" with "own" scope means:
+- User can edit articles where `article.user_id === user.id`
+
+Without a scope, the permission grants access to all entities.
 
 ## License
 
