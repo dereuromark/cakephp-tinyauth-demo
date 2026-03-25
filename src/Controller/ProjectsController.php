@@ -60,7 +60,12 @@ class ProjectsController extends AppController
             // Scoped access - prefix with table alias to avoid ambiguity in joins
             $prefixedConditions = [];
             foreach ($conditions as $field => $value) {
-                $prefixedConditions['Projects.' . $field] = $value;
+                if ($value === null) {
+                    // Use IS NULL syntax for null values
+                    $prefixedConditions['Projects.' . $field . ' IS'] = null;
+                } else {
+                    $prefixedConditions['Projects.' . $field] = $value;
+                }
             }
             $query->where($prefixedConditions);
             $projects = $query->all()->toArray();

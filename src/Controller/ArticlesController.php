@@ -55,8 +55,17 @@ class ArticlesController extends AppController
             // No access - show empty list
             $articles = [];
         } elseif ($conditions) {
-            // Scoped access - apply conditions
-            $query->where($conditions);
+            // Scoped access - apply conditions with proper null handling
+            $prefixedConditions = [];
+            foreach ($conditions as $field => $value) {
+                if ($value === null) {
+                    // Use IS NULL syntax for null values
+                    $prefixedConditions['Articles.' . $field . ' IS'] = null;
+                } else {
+                    $prefixedConditions['Articles.' . $field] = $value;
+                }
+            }
+            $query->where($prefixedConditions);
             $articles = $query->all()->toArray();
         } else {
             // Full access - no conditions
