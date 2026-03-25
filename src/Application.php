@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Middleware\DemoFeaturesMiddleware;
 use App\Middleware\HostHeaderMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
@@ -82,6 +83,9 @@ class Application extends BaseApplication
             // caching in production could improve performance.
             // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
+
+            // Demo: Apply feature toggles from session to Configure
+            ->add(new DemoFeaturesMiddleware())
 
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()

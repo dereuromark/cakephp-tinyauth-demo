@@ -197,6 +197,54 @@ endif;
                             </p>
                         </div>
 
+                        <!-- Feature Toggles -->
+                        <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ff9800;">
+                            <h4 style="margin-top: 0;">Feature Toggles</h4>
+                            <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                                Simulate different feature configurations. These override the auto-detected settings.
+                            </p>
+                            <?php
+                            $sessionFeatures = $session->read('TinyAuthFeatures') ?? [];
+                            $allFeatures = ['acl', 'allow', 'roles', 'resources', 'scopes'];
+                            $featureLabels = [
+                                'acl' => 'ACL (Role Permissions)',
+                                'allow' => 'Allow (Public Actions)',
+                                'roles' => 'Roles (Hierarchy)',
+                                'resources' => 'Resources (Entity-Level)',
+                                'scopes' => 'Scopes (Conditions)',
+                            ];
+                            ?>
+                            <?= $this->Form->create(null, ['url' => ['controller' => 'FeatureSwitcher', 'action' => 'update']]) ?>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
+                                <?php foreach ($allFeatures as $feature) {
+                                    $isEnabled = $sessionFeatures[$feature] ?? true; // Default to true (auto-detect usually enables)
+                                    $isOverridden = isset($sessionFeatures[$feature]);
+                                ?>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: <?= $isEnabled ? '#e8f5e9' : '#ffebee' ?>; border-radius: 4px; cursor: pointer; <?= $isOverridden ? 'border: 2px solid #ff9800;' : '' ?>">
+                                    <input type="hidden" name="<?= $feature ?>" value="0">
+                                    <input type="checkbox" name="<?= $feature ?>" value="1" <?= $isEnabled ? 'checked' : '' ?> style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.9rem;"><?= h($featureLabels[$feature]) ?></span>
+                                </label>
+                                <?php } ?>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button type="submit" style="background: #ff9800; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                                    Apply Settings
+                                </button>
+                                <?= $this->Form->end() ?>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'FeatureSwitcher', 'action' => 'reset'], 'style' => 'display: inline; margin: 0;']) ?>
+                                <button type="submit" style="background: #9e9e9e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                                    Reset to Auto-Detect
+                                </button>
+                                <?= $this->Form->end() ?>
+                            </div>
+                            <?php if ($sessionFeatures) { ?>
+                            <p style="margin-top: 0.75rem; font-size: 0.85rem; color: #e65100;">
+                                <strong>Active Overrides:</strong> <?= implode(', ', array_keys($sessionFeatures)) ?>
+                            </p>
+                            <?php } ?>
+                        </div>
+
                         <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
                             <h4 style="margin-top: 0;">Admin Panel</h4>
                             <p style="margin-bottom: 1rem;">Entry point: <a href="/admin/auth" style="font-weight: bold;">/admin/auth</a> (Dashboard)</p>
