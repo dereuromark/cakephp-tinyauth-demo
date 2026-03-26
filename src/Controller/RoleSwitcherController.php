@@ -13,6 +13,8 @@ class RoleSwitcherController extends AppController
     /**
      * Switch to a different role.
      *
+     * If no user is currently selected, automatically select the first user with that role.
+     *
      * @return \Cake\Http\Response|null
      */
     public function switch(): ?Response
@@ -21,9 +23,37 @@ class RoleSwitcherController extends AppController
         $roleName = $this->request->getData('role_name');
 
         if ($roleId > 0) {
-            $this->request->getSession()->write('Auth.id', 1); // Fake user ID
-            $this->request->getSession()->write('Auth.role_id', $roleId);
-            $this->request->getSession()->write('Auth.role_name', $roleName);
+            $session = $this->request->getSession();
+            $currentUserId = $session->read('Auth.user_id');
+
+            // If no user selected, find first user with this role
+            if (!$currentUserId) {
+                $usersTable = $this->fetchTable('Users');
+                /** @var \App\Model\Entity\User|null $user */
+                $user = $usersTable->find()
+                    ->contain(['Teams'])
+                    ->where(['Users.role_id' => $roleId])
+                    ->orderBy(['Users.id' => 'ASC'])
+                    ->first();
+
+                if ($user) {
+                    $session->write('Auth.id', $user->id);
+                    $session->write('Auth.user_id', $user->id);
+                    $session->write('Auth.role_id', $roleId);
+                    $session->write('Auth.role_name', $roleName);
+                    $session->write('Auth.team_id', $user->team_id);
+                    $session->write('Auth.username', $user->username);
+
+                    $teamName = $user->team ? $user->team->name : 'No Team';
+                    $this->Flash->success(__('Switched to role: {0} (auto-selected user: {1}, {2})', $roleName, $user->username, $teamName));
+
+                    return $this->redirect('/');
+                }
+            }
+
+            $session->write('Auth.id', $currentUserId ?: 1);
+            $session->write('Auth.role_id', $roleId);
+            $session->write('Auth.role_name', $roleName);
             $this->Flash->success(__('Switched to role: {0}', $roleName));
         } else {
             // Clear session (logged out)
