@@ -66,7 +66,7 @@ endif;
         CakePHP: the rapid development PHP framework:
         <?= $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->meta('icon', $this->Url->image('tinyauth-demo-favicon.svg'), ['type' => 'image/svg+xml']) ?>
 
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake', 'home']) ?>
 
