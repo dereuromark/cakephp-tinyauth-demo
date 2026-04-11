@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\FullBackend;
 
 use App\Model\Entity\Project;
+use App\Model\Table\ProjectsTable;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 
@@ -13,11 +14,11 @@ use Cake\Http\Response;
  * Projects use the `team` scope (project.team_id = user.team_id) as
  * well as `own`, so they exercise the scopes table more fully than
  * Articles.
- *
- * @property \App\Model\Table\ProjectsTable $Projects
  */
 class ProjectsController extends AppController
 {
+    protected ProjectsTable $Projects;
+
     /**
      * @return void
      */
@@ -25,7 +26,9 @@ class ProjectsController extends AppController
     {
         parent::initialize();
 
-        $this->Projects = $this->fetchTable('Projects');
+        /** @var \App\Model\Table\ProjectsTable $table */
+        $table = $this->fetchTable('Projects');
+        $this->Projects = $table;
     }
 
     /**

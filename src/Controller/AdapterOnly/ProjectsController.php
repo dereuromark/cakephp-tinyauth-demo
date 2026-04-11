@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Controller\AdapterOnly;
 
-use App\Model\Entity\Project;
+use App\Model\Table\ProjectsTable;
 use Cake\Http\Exception\NotFoundException;
 
 /**
  * Projects under the Adapter Only strategy.
- *
- * @property \App\Model\Table\ProjectsTable $Projects
  */
 class ProjectsController extends AppController
 {
+    protected ProjectsTable $Projects;
+
     /**
      * @return void
      */
@@ -20,7 +20,9 @@ class ProjectsController extends AppController
     {
         parent::initialize();
 
-        $this->Projects = $this->fetchTable('Projects');
+        /** @var \App\Model\Table\ProjectsTable $table */
+        $table = $this->fetchTable('Projects');
+        $this->Projects = $table;
     }
 
     /**

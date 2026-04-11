@@ -34,53 +34,53 @@ use Psr\Http\Server\RequestHandlerInterface;
  * The middleware is intentionally small — all the real work happens
  * in the strategy-specific controller classes.
  */
-class StrategyMiddleware implements MiddlewareInterface {
+class StrategyMiddleware implements MiddlewareInterface
+{
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $prefix = $request->getAttribute('params')['prefix'] ?? null;
+        $slug = is_string($prefix) ? Strategy::slugForPrefix($prefix) : null;
 
-	/**
-	 * @param \Psr\Http\Message\ServerRequestInterface $request
-	 * @param \Psr\Http\Server\RequestHandlerInterface $handler
-	 * @return \Psr\Http\Message\ResponseInterface
-	 */
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-		$prefix = $request->getAttribute('params')['prefix'] ?? null;
-		$slug = is_string($prefix) ? Strategy::slugForPrefix($prefix) : null;
+        if ($slug === null) {
+            return $handler->handle($request);
+        }
 
-		if ($slug === null) {
-			return $handler->handle($request);
-		}
+        $request = $request->withAttribute('strategy', $slug);
 
-		$request = $request->withAttribute('strategy', $slug);
+        if ($slug === Strategy::EXTERNAL_ROLES) {
+            $session = $request->getAttribute('session');
+            if (!$session) {
+                /** @var \Cake\Http\ServerRequest $request */
+                $session = $request->getSession();
+            }
+            Configure::write('TinyAuthBackend.roleSource', static function () use ($session): array {
+                $alias = $session->read('ExternalRoles.role');
+                if (!$alias) {
+                    return [];
+                }
+                $roles = TableRegistry::getTableLocator()->get('TinyAuthBackend.Roles');
+                /** @var \Cake\ORM\Entity|null $row */
+                $row = $roles->find()->where(['alias' => $alias])->first();
+                if (!$row) {
+                    return [];
+                }
 
-		if ($slug === Strategy::EXTERNAL_ROLES) {
-			$session = $request->getAttribute('session');
-			if (!$session) {
-				/** @var \Cake\Http\ServerRequest $request */
-				$session = $request->getSession();
-			}
-			Configure::write('TinyAuthBackend.roleSource', static function () use ($session): array {
-				$alias = $session->read('ExternalRoles.role');
-				if (!$alias) {
-					return [];
-				}
-				$roles = TableRegistry::getTableLocator()->get('TinyAuthBackend.Roles');
-				/** @var \Cake\ORM\Entity|null $row */
-				$row = $roles->find()->where(['alias' => $alias])->first();
-				if (!$row) {
-					return [];
-				}
+                return [$alias => (int)$row->get('id')];
+            });
+        } else {
+            // Restore the default (DB-backed) role source for any
+            // request not under the ExternalRoles subtree. Without
+            // this reset the callable would leak across requests in
+            // worker-mode runtimes (FrankenPHP / RoadRunner) where
+            // Configure survives between requests.
+            Configure::write('TinyAuthBackend.roleSource', null);
+        }
 
-				return [$alias => (int)$row->get('id')];
-			});
-		} else {
-			// Restore the default (DB-backed) role source for any
-			// request not under the ExternalRoles subtree. Without
-			// this reset the callable would leak across requests in
-			// worker-mode runtimes (FrankenPHP / RoadRunner) where
-			// Configure survives between requests.
-			Configure::write('TinyAuthBackend.roleSource', null);
-		}
-
-		return $handler->handle($request);
-	}
-
+        return $handler->handle($request);
+    }
 }

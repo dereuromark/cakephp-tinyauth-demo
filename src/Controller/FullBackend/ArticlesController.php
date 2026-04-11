@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\FullBackend;
 
 use App\Model\Entity\Article;
+use App\Model\Table\ArticlesTable;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 
@@ -15,26 +16,33 @@ use Cake\Http\Response;
  * `TinyAuthPolicy` (which in turn asks `TinyAuthService` for the
  * active role's scope conditions against the `Article` resource).
  * Entity actions call `authorize()` with the ability name.
- *
- * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends AppController
 {
+    protected ArticlesTable $Articles;
+
     /**
-     * @var string|null
+     * @return void
      */
-    protected ?string $defaultTable = 'Articles';
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        /** @var \App\Model\Table\ArticlesTable $table */
+        $table = $this->fetchTable('Articles');
+        $this->Articles = $table;
+    }
 
     /**
      * @return void
      */
     public function index(): void
     {
-        $query = $this->fetchTable('Articles')->find()
+        $query = $this->Articles->find()
             ->contain(['Users'])
             ->orderBy(['Articles.created' => 'DESC']);
 
-        // Hands the query to TinyAuthPolicy::scope() via the
+        // Hands the query to TinyAuthPolicy::scopeIndex() via the
         // Authorization plugin. The policy asks TinyAuthService for
         // the active role's scope conditions and applies them.
         $query = $this->Authorization->applyScope($query, 'index');
@@ -68,8 +76,8 @@ class ArticlesController extends AppController
         $this->Authorization->authorize($article, 'edit');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $article = $this->fetchTable('Articles')->patchEntity($article, $this->request->getData());
-            if ($this->fetchTable('Articles')->save($article)) {
+            $article = $this->Articles->patchEntity($article, $this->request->getData());
+            if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Article saved.'));
 
                 return $this->redirect(['action' => 'view', $article->id]);
@@ -90,10 +98,11 @@ class ArticlesController extends AppController
     public function delete(int $id): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        $article = $this->fetchTable('Articles')->get($id);
+        /** @var \App\Model\Entity\Article $article */
+        $article = $this->Articles->get($id);
         $this->Authorization->authorize($article, 'delete');
 
-        if ($this->fetchTable('Articles')->delete($article)) {
+        if ($this->Articles->delete($article)) {
             $this->Flash->success(__('Article deleted.'));
         } else {
             $this->Flash->error(__('Could not delete article.'));
@@ -109,7 +118,7 @@ class ArticlesController extends AppController
     protected function loadArticle(int $id): Article
     {
         /** @var \App\Model\Entity\Article|null $article */
-        $article = $this->fetchTable('Articles')->find()
+        $article = $this->Articles->find()
             ->contain(['Users'])
             ->where(['Articles.id' => $id])
             ->first();

@@ -5,6 +5,7 @@ namespace App\Controller\FullBackend;
 
 use App\Controller\AppController as BaseAppController;
 use App\Service\Strategy;
+use Cake\Event\EventInterface;
 
 /**
  * Shared base for the FullBackend strategy subtree.
@@ -18,6 +19,8 @@ use App\Service\Strategy;
  *   relevant entity to `TinyAuthBackend\Policy\TinyAuthPolicy`.
  * - Rules, hierarchy, abilities, and scopes all live in the plugin's
  *   tables and are edited through `/admin/auth/*`.
+ *
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class AppController extends BaseAppController
 {
@@ -39,7 +42,7 @@ class AppController extends BaseAppController
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event
      * @return void
      */
-    public function beforeRender(\Cake\Event\EventInterface $event): void
+    public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
 

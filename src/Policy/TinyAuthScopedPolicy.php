@@ -242,7 +242,7 @@ class TinyAuthScopedPolicy implements BeforePolicyInterface
         foreach ($conditions as $field => $value) {
             if ($field === 'OR' || $field === 'AND') {
                 $out[$field] = array_map(
-                    fn ($sub) => is_array($sub) ? $this->qualifyConditions($sub, $query) : $sub,
+                    fn($sub) => is_array($sub) ? $this->qualifyConditions($sub, $query) : $sub,
                     (array)$value,
                 );
 

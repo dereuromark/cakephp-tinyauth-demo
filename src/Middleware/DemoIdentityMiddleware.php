@@ -18,37 +18,37 @@ use Psr\Http\Server\RequestHandlerInterface;
  * in a production app — the demo skips real auth and lets visitors
  * impersonate any seeded user via the switcher.
  */
-class DemoIdentityMiddleware implements MiddlewareInterface {
+class DemoIdentityMiddleware implements MiddlewareInterface
+{
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $session = $request->getAttribute('session');
+        if (!$session) {
+            /** @var \Cake\Http\ServerRequest $request */
+            $session = $request->getSession();
+        }
 
-	/**
-	 * @param \Psr\Http\Message\ServerRequestInterface $request
-	 * @param \Psr\Http\Server\RequestHandlerInterface $handler
-	 * @return \Psr\Http\Message\ResponseInterface
-	 */
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-		$session = $request->getAttribute('session');
-		if (!$session) {
-			/** @var \Cake\Http\ServerRequest $request */
-			$session = $request->getSession();
-		}
+        $userId = $session->read('Auth.user_id');
+        if ($userId) {
+            $users = TableRegistry::getTableLocator()->get('Users');
+            /** @var \Cake\Datasource\EntityInterface|null $user */
+            $user = $users->find()->where(['Users.id' => (int)$userId])->first();
+            if ($user) {
+                // Pass the raw entity — the Authorization plugin's
+                // AuthorizationMiddleware wraps non-IdentityInterface
+                // values in its configured decorator (and injects the
+                // AuthorizationService). If we wrapped it ourselves,
+                // the decoration is skipped and `applyScope()` has
+                // no service to dispatch through.
+                $request = $request->withAttribute('identity', $user);
+            }
+        }
 
-		$userId = $session->read('Auth.user_id');
-		if ($userId) {
-			$users = TableRegistry::getTableLocator()->get('Users');
-			/** @var \Cake\Datasource\EntityInterface|null $user */
-			$user = $users->find()->where(['Users.id' => (int)$userId])->first();
-			if ($user) {
-				// Pass the raw entity — the Authorization plugin's
-				// AuthorizationMiddleware wraps non-IdentityInterface
-				// values in its configured decorator (and injects the
-				// AuthorizationService). If we wrapped it ourselves,
-				// the decoration is skipped and `applyScope()` has
-				// no service to dispatch through.
-				$request = $request->withAttribute('identity', $user);
-			}
-		}
-
-		return $handler->handle($request);
-	}
-
+        return $handler->handle($request);
+    }
 }

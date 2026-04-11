@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\AdapterOnly;
 
 use App\Model\Entity\Article;
+use App\Model\Table\ArticlesTable;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 
@@ -14,11 +15,11 @@ use Cake\Http\Response;
  * filtering. The demo intentionally surfaces **every** article to
  * every authenticated role, to illustrate what this strategy does
  * (and does not) enforce.
- *
- * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends AppController
 {
+    protected ArticlesTable $Articles;
+
     /**
      * @return void
      */
@@ -26,7 +27,9 @@ class ArticlesController extends AppController
     {
         parent::initialize();
 
-        $this->Articles = $this->fetchTable('Articles');
+        /** @var \App\Model\Table\ArticlesTable $table */
+        $table = $this->fetchTable('Articles');
+        $this->Articles = $table;
     }
 
     /**
