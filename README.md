@@ -41,7 +41,8 @@ php -r "echo bin2hex(random_bytes(32));"
 ddev exec bin/cake migrations migrate
 ddev exec bin/cake migrations migrate -p TinyAuthBackend
 
-# Sync controllers to TinyAuth database
+# Sync controllers, actions, and resource entities into the TinyAuth
+# backend tables. Equivalent to clicking Sync in /admin/auth/sync.
 ddev exec bin/cake tiny_auth_backend sync
 
 # Seed demo data (roles, scopes, users, resources, articles, projects)
