@@ -25,6 +25,8 @@ Thumbs.db
 # PHPUnit
 .phpunit.cache
 tests.sqlite
+# Playwright MCP
+/.playwright-mcp/
 # vim
 *~
 *.swp

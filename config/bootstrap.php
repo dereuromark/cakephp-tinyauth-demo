@@ -246,3 +246,36 @@ ServerRequest::addDetector('tablet', function ($request) {
 // (No namespace-filter override needed — PR #17's
 // `resourceNamespaceFilter` default is already `null`, so every
 // registered resource is visible in the admin UI.)
+
+/*
+ * TinyAuthBackend admin guard.
+ *
+ * The plugin delegates /admin/auth auth to the host app. Without a
+ * gate here the entire permission matrix would be editable by anyone
+ * who could reach the page — this actually happened once on the live
+ * demo (a drive-by visitor created a stray `c` role through the
+ * unguarded toggle endpoint) before this check was added.
+ *
+ * The demo has no real login, so "authenticated" means the role
+ * switcher has placed a user in the session; "authorized" means that
+ * user has the admin role. Visitors who want to play with the matrix
+ * first have to click the `admin` role button on the homepage.
+ *
+ * Relies on the Hash::merge behavior introduced in PR #19 of the
+ * plugin — this write happens in the host bootstrap (step 2 of
+ * BaseApplication::bootstrap), and the plugin's own bootstrap later
+ * merges its defaults on top without wiping the editorCheck entry.
+ */
+Configure::write(
+    'TinyAuthBackend.editorCheck',
+    function (mixed $identity, \Psr\Http\Message\ServerRequestInterface $request): bool {
+        if (!$identity) {
+            return false;
+        }
+        $roleId = is_object($identity) && method_exists($identity, 'get')
+            ? $identity->get('role_id')
+            : ($identity['role_id'] ?? null);
+
+        return $roleId === (Configure::read('Roles.admin') ?? 3);
+    },
+);
