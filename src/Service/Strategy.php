@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -15,9 +16,24 @@ namespace App\Service;
  */
 final class Strategy
 {
+    /**
+     * @var string
+     */
     public const ADAPTER_ONLY = 'adapter-only';
+
+    /**
+     * @var string
+     */
     public const FULL_BACKEND = 'full-backend';
+
+    /**
+     * @var string
+     */
     public const NATIVE_AUTH = 'native-auth';
+
+    /**
+     * @var string
+     */
     public const EXTERNAL_ROLES = 'external-roles';
 
     /**
@@ -67,6 +83,7 @@ final class Strategy
 
     /**
      * @param string $slug
+     *
      * @return array<string, string>|null
      */
     public static function find(string $slug): ?array
@@ -93,6 +110,7 @@ final class Strategy
      * Reverse lookup: prefix → slug.
      *
      * @param string $prefix
+     *
      * @return string|null
      */
     public static function slugForPrefix(string $prefix): ?string

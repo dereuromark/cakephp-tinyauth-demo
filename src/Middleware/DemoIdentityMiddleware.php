@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Middleware;
@@ -23,14 +24,14 @@ class DemoIdentityMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $session = $request->getAttribute('session');
         if (!$session) {
-            /** @var \Cake\Http\ServerRequest $request */
-            $session = $request->getSession();
+            return $handler->handle($request);
         }
 
         $userId = (int)$session->read('Auth.user_id');

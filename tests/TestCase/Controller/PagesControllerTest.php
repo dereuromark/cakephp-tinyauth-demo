@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -9,11 +10,12 @@ declare(strict_types=1);
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         1.2.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 1.2.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
@@ -35,7 +37,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDisplay()
+    public function testDisplay(): void
     {
         Configure::write('debug', true);
         $this->get('/pages/home');
@@ -49,7 +51,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testMissingTemplate()
+    public function testMissingTemplate(): void
     {
         Configure::write('debug', false);
         $this->get('/pages/not_existing');
@@ -63,7 +65,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testMissingTemplateInDebug()
+    public function testMissingTemplateInDebug(): void
     {
         Configure::write('debug', true);
         $this->get('/pages/not_existing');
@@ -79,7 +81,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDirectoryTraversalProtection()
+    public function testDirectoryTraversalProtection(): void
     {
         $this->get('/pages/../Layout/ajax');
         $this->assertResponseCode(403);
@@ -91,7 +93,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCsrfAppliedError()
+    public function testCsrfAppliedError(): void
     {
         $this->post('/pages/home', ['hello' => 'world']);
 
@@ -104,7 +106,7 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCsrfAppliedOk()
+    public function testCsrfAppliedOk(): void
     {
         $this->enableCsrfToken();
         $this->post('/pages/home', ['hello' => 'world']);

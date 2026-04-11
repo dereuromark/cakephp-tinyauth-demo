@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
 <ruleset name="App">
-    <rule ref="CakePHP"/>
+    <rule ref="PhpCollective"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint">
         <exclude-pattern>*/src/Controller/*</exclude-pattern>
+    </rule>
+
+    <!-- CakePHP base Entity uses `_accessible` / `_hidden` convention;
+         those names aren't under our control. -->
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <exclude-pattern>*/src/Model/Entity/*</exclude-pattern>
     </rule>
 
     <file>src/</file>

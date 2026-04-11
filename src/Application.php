@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -10,17 +11,21 @@ declare(strict_types=1);
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link      https://cakephp.org CakePHP(tm) Project
- * @since     3.3.0
- * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 3.3.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Middleware\DemoFeaturesMiddleware;
 use App\Middleware\DemoIdentityMiddleware;
 use App\Middleware\HostHeaderMiddleware;
 use App\Middleware\StrategyMiddleware;
-use App\Policy\TinyAuthResolver;
+use App\Model\Entity\Article;
+use App\Model\Entity\Project;
+use App\Model\Table\ArticlesTable;
+use App\Model\Table\ProjectsTable;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
@@ -38,6 +43,7 @@ use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
+use TinyAuthBackend\Policy\TinyAuthResolver;
 
 /**
  * Application setup class.
@@ -74,6 +80,7 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
      * Setup the middleware queue your application will use.
      *
      * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
+     *
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
@@ -141,25 +148,40 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
     }
 
     /**
-     * Wire the Authorization plugin's service with a small custom
-     * resolver that hands every demo entity / table / query to the
-     * plugin's `TinyAuthPolicy`. The policy in turn calls
-     * `TinyAuthBackend\Service\TinyAuthService` against live DB rules.
+     * Wire the Authorization plugin's service with the plugin-provided
+     * `TinyAuthResolver`, which maps every known entity / table / query
+     * to `TinyAuthBackend\Policy\TinyAuthPolicy`. The policy in turn
+     * calls `TinyAuthBackend\Service\TinyAuthService` against live DB
+     * rules.
+     *
+     * The allowlist is explicit so unrelated entities (error pages,
+     * test fixtures, etc.) fall through to `MissingPolicyException`
+     * instead of being silently governed by TinyAuth.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Authorization\AuthorizationServiceInterface
      */
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
-        return new AuthorizationService(new TinyAuthResolver());
+        $resolver = new TinyAuthResolver([
+            Article::class,
+            Project::class,
+            ArticlesTable::class,
+            ProjectsTable::class,
+        ]);
+
+        return new AuthorizationService($resolver);
     }
 
     /**
      * Register application container services.
      *
-     * @param \Cake\Core\ContainerInterface $container The Container to update.
-     * @return void
      * @link https://book.cakephp.org/5/en/development/dependency-injection.html#dependency-injection
+     *
+     * @param \Cake\Core\ContainerInterface $container The Container to update.
+     *
+     * @return void
      */
     public function services(ContainerInterface $container): void
     {
@@ -170,9 +192,11 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
     /**
      * Register custom event listeners here
      *
-     * @param \Cake\Event\EventManagerInterface $eventManager
-     * @return \Cake\Event\EventManagerInterface
      * @link https://book.cakephp.org/5/en/core-libraries/events.html#registering-listeners
+     *
+     * @param \Cake\Event\EventManagerInterface $eventManager
+     *
+     * @return \Cake\Event\EventManagerInterface
      */
     public function events(EventManagerInterface $eventManager): EventManagerInterface
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Middleware;
@@ -27,6 +28,10 @@ class HostHeaderMiddleware implements MiddlewareInterface
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request The request.
      * @param \Psr\Http\Server\RequestHandlerInterface $handler The request handler.
+     *
+     * @throws \Cake\Http\Exception\BadRequestException
+     * @throws \Cake\Http\Exception\InternalErrorException
+     *
      * @return \Psr\Http\Message\ResponseInterface A response.
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -38,9 +43,9 @@ class HostHeaderMiddleware implements MiddlewareInterface
         $fullBaseUrl = Configure::read('App.fullBaseUrl');
         if (!$fullBaseUrl) {
             throw new InternalErrorException(
-                'SECURITY: App.fullBaseUrl is not configured. ' .
-                'This is required in production to prevent Host Header Injection attacks. ' .
-                'Set APP_FULL_BASE_URL environment variable or configure App.fullBaseUrl in config/app.php',
+                'SECURITY: App.fullBaseUrl is not configured. '
+                . 'This is required in production to prevent Host Header Injection attacks. '
+                . 'Set APP_FULL_BASE_URL environment variable or configure App.fullBaseUrl in config/app.php',
             );
         }
 

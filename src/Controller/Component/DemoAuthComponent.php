@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Component;
@@ -26,6 +27,7 @@ class DemoAuthComponent extends Component
      *
      * @param string|null $controller Controller name (defaults to current)
      * @param string|null $action Action name (defaults to current)
+     *
      * @return bool
      */
     public function isAuthorized(?string $controller = null, ?string $action = null): bool
@@ -109,6 +111,7 @@ class DemoAuthComponent extends Component
      * @param int $parentRoleId Parent role ID
      * @param \Cake\ORM\Table $permissionsTable Permissions table
      * @param \Cake\ORM\Table $rolesTable Roles table
+     *
      * @return bool
      */
     protected function checkParentPermission(int $actionId, int $parentRoleId, Table $permissionsTable, Table $rolesTable): bool
@@ -137,7 +140,9 @@ class DemoAuthComponent extends Component
      *
      * @param string|null $controller Controller name
      * @param string|null $action Action name
+     *
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return void
      */
     public function requireAuthorization(?string $controller = null, ?string $action = null): void
@@ -225,6 +230,7 @@ class DemoAuthComponent extends Component
      * @param \Cake\Datasource\EntityInterface $entity The entity to check access for
      * @param string $ability The ability (view, edit, delete, etc.)
      * @param string $resourceName The resource name (Article, Project, etc.)
+     *
      * @return bool
      */
     public function canAccessResource(
@@ -249,6 +255,7 @@ class DemoAuthComponent extends Component
      *
      * @param string $resourceName The resource name
      * @param string $ability The ability
+     *
      * @return array|null Null = no access, empty = full access, array = conditions
      */
     public function getScopeConditions(string $resourceName, string $ability): ?array

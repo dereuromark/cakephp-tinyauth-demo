@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
@@ -151,6 +152,7 @@ class StrategyMatrixTest extends TestCase
      * @param string $role
      * @param string $url
      * @param int $code
+     *
      * @return void
      */
     #[DataProvider('matrixProvider')]
@@ -180,6 +182,7 @@ class StrategyMatrixTest extends TestCase
      * in the real UI.
      *
      * @param string $username
+     *
      * @return void
      */
     protected function impersonate(string $username): void
@@ -205,6 +208,7 @@ class StrategyMatrixTest extends TestCase
      *
      * @param string $url
      * @param string $role
+     *
      * @return string
      */
     protected function substituteEntityTokens(string $url, string $role): string
@@ -227,6 +231,7 @@ class StrategyMatrixTest extends TestCase
             foreach ($byOwner as $ownerId => $id) {
                 if ($ownerId !== $userId) {
                     $otherId = $id;
+
                     break;
                 }
             }

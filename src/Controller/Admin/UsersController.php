@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -43,6 +44,7 @@ class UsersController extends AppController
      * View a user
      *
      * @param string|null $id User id
+     *
      * @return void
      */
     public function view(?string $id = null): void
@@ -70,6 +72,7 @@ class UsersController extends AppController
      * Delete a user
      *
      * @param string|null $id User id
+     *
      * @return \Cake\Http\Response|null
      */
     public function delete(?string $id = null): ?Response

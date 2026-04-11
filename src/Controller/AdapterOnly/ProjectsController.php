@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\AdapterOnly;
@@ -42,6 +43,9 @@ class ProjectsController extends AppController
 
     /**
      * @param int $id
+     *
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @return void
      */
     public function view(int $id): void

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\FullBackend;
@@ -40,6 +41,7 @@ class AppController extends BaseAppController
      * which extend the Full Backend controllers for code reuse.
      *
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event
+     *
      * @return void
      */
     public function beforeRender(EventInterface $event): void

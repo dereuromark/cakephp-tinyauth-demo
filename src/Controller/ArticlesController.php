@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -91,8 +92,10 @@ class ArticlesController extends AppController
      * Checks resource-level "view" ability for the specific article.
      *
      * @param int $id Article ID
+     *
      * @throws \Cake\Http\Exception\NotFoundException
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return void
      */
     public function view(int $id): void
@@ -131,8 +134,10 @@ class ArticlesController extends AppController
      * Checks resource-level "edit" ability for the specific article.
      *
      * @param int $id Article ID
+     *
      * @throws \Cake\Http\Exception\NotFoundException
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return \Cake\Http\Response|null
      */
     public function edit(int $id): ?Response
@@ -181,8 +186,9 @@ class ArticlesController extends AppController
      * Checks resource-level "delete" ability for the specific article.
      *
      * @param int $id Article ID
-     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return \Cake\Http\Response|null
      */
     public function delete(int $id): ?Response

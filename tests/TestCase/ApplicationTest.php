@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -9,11 +10,12 @@ declare(strict_types=1);
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         3.3.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link https://cakephp.org CakePHP(tm) Project
+ * @since 3.3.0
+ * @license https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Test\TestCase;
 
 use App\Application;
@@ -38,7 +40,7 @@ class ApplicationTest extends TestCase
      *
      * @return void
      */
-    public function testBootstrap()
+    public function testBootstrap(): void
     {
         Configure::write('debug', false);
         $app = new Application(dirname(__DIR__, 2) . '/config');
@@ -55,7 +57,7 @@ class ApplicationTest extends TestCase
      *
      * @return void
      */
-    public function testBootstrapInDebug()
+    public function testBootstrapInDebug(): void
     {
         Configure::write('debug', true);
         $app = new Application(dirname(__DIR__, 2) . '/config');
@@ -70,7 +72,7 @@ class ApplicationTest extends TestCase
      *
      * @return void
      */
-    public function testMiddleware()
+    public function testMiddleware(): void
     {
         $app = new Application(dirname(__DIR__, 2) . '/config');
         $middleware = new MiddlewareQueue();

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Middleware;
@@ -39,6 +40,7 @@ class StrategyMiddleware implements MiddlewareInterface
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -55,8 +57,7 @@ class StrategyMiddleware implements MiddlewareInterface
         if ($slug === Strategy::EXTERNAL_ROLES) {
             $session = $request->getAttribute('session');
             if (!$session) {
-                /** @var \Cake\Http\ServerRequest $request */
-                $session = $request->getSession();
+                return $handler->handle($request);
             }
             Configure::write('TinyAuthBackend.roleSource', static function () use ($session): array {
                 $alias = $session->read('ExternalRoles.role');

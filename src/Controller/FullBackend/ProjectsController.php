@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\FullBackend;
@@ -51,6 +52,7 @@ class ProjectsController extends AppController
 
     /**
      * @param int $id
+     *
      * @return void
      */
     public function view(int $id): void
@@ -64,6 +66,7 @@ class ProjectsController extends AppController
 
     /**
      * @param int $id
+     *
      * @return \Cake\Http\Response|null
      */
     public function edit(int $id): ?Response
@@ -91,6 +94,9 @@ class ProjectsController extends AppController
 
     /**
      * @param int $id
+     *
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @return \App\Model\Entity\Project
      */
     protected function loadProject(int $id): Project

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -35,6 +36,7 @@ class ProjectsTable extends Table
 {
     /**
      * @param array<string, mixed> $config
+     *
      * @return void
      */
     public function initialize(array $config): void
@@ -60,6 +62,7 @@ class ProjectsTable extends Table
 
     /**
      * @param \Cake\Validation\Validator $validator
+     *
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -88,6 +91,7 @@ class ProjectsTable extends Table
 
     /**
      * @param \Cake\ORM\RulesChecker $rules
+     *
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker

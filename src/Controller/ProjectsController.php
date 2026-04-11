@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -91,8 +92,10 @@ class ProjectsController extends AppController
      * View a single project.
      *
      * @param int $id Project ID
+     *
      * @throws \Cake\Http\Exception\NotFoundException
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return void
      */
     public function view(int $id): void
@@ -129,8 +132,10 @@ class ProjectsController extends AppController
      * Edit a project.
      *
      * @param int $id Project ID
+     *
      * @throws \Cake\Http\Exception\NotFoundException
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return \Cake\Http\Response|null
      */
     public function edit(int $id): ?Response
@@ -178,8 +183,9 @@ class ProjectsController extends AppController
      * Delete a project.
      *
      * @param int $id Project ID
-     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @throws \Cake\Http\Exception\ForbiddenException
+     *
      * @return \Cake\Http\Response|null
      */
     public function delete(int $id): ?Response

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -15,6 +16,7 @@ class SeedDemoDataCommand extends Command
 {
     /**
      * @param \Cake\Console\ConsoleOptionParser $parser
+     *
      * @return \Cake\Console\ConsoleOptionParser
      */
     protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
@@ -27,6 +29,7 @@ class SeedDemoDataCommand extends Command
     /**
      * @param \Cake\Console\Arguments $args
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return int
      */
     public function execute(Arguments $args, ConsoleIo $io): int
@@ -50,6 +53,7 @@ class SeedDemoDataCommand extends Command
      * Seed roles.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedRoles(ConsoleIo $io): void
@@ -79,6 +83,7 @@ class SeedDemoDataCommand extends Command
      * Seed scopes.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedScopes(ConsoleIo $io): void
@@ -129,6 +134,7 @@ class SeedDemoDataCommand extends Command
      * Seed public actions.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedPublicActions(ConsoleIo $io): void
@@ -164,6 +170,7 @@ class SeedDemoDataCommand extends Command
      * Seed demo teams.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedTeams(ConsoleIo $io): void
@@ -193,6 +200,7 @@ class SeedDemoDataCommand extends Command
      * Seed demo users with team assignments.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedUsers(ConsoleIo $io): void
@@ -273,6 +281,7 @@ class SeedDemoDataCommand extends Command
      * Seed resources with abilities and permissions.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedResources(ConsoleIo $io): void
@@ -406,6 +415,7 @@ class SeedDemoDataCommand extends Command
      * - Admin/Users: admin only
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedControllerAcl(ConsoleIo $io): void
@@ -475,6 +485,7 @@ class SeedDemoDataCommand extends Command
 
             if (!$controller) {
                 $io->warning("  Controller not found: {$controllerName} (sync controllers first)");
+
                 continue;
             }
 
@@ -485,6 +496,7 @@ class SeedDemoDataCommand extends Command
 
                 if (!$action) {
                     $io->warning("  Action not found: {$controllerName}::{$actionName}");
+
                     continue;
                 }
 
@@ -526,6 +538,7 @@ class SeedDemoDataCommand extends Command
      * Seed sample articles for demonstration.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedSampleArticles(ConsoleIo $io): void
@@ -568,6 +581,7 @@ class SeedDemoDataCommand extends Command
      * Seed sample projects for team scope demonstration.
      *
      * @param \Cake\Console\ConsoleIo $io
+     *
      * @return void
      */
     protected function seedSampleProjects(ConsoleIo $io): void

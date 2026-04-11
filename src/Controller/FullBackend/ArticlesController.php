@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\FullBackend;
@@ -57,6 +58,7 @@ class ArticlesController extends AppController
 
     /**
      * @param int $id
+     *
      * @return void
      */
     public function view(int $id): void
@@ -70,6 +72,7 @@ class ArticlesController extends AppController
 
     /**
      * @param int $id
+     *
      * @return \Cake\Http\Response|null
      */
     public function edit(int $id): ?Response
@@ -97,6 +100,7 @@ class ArticlesController extends AppController
 
     /**
      * @param int $id
+     *
      * @return \Cake\Http\Response|null
      */
     public function delete(int $id): ?Response
@@ -117,6 +121,9 @@ class ArticlesController extends AppController
 
     /**
      * @param int $id
+     *
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @return \App\Model\Entity\Article
      */
     protected function loadArticle(int $id): Article
