@@ -11,8 +11,8 @@ use Cake\Validation\Validator;
  *
  * Supporting model for team-based scope demonstrations.
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
- * @property \App\Model\Table\ProjectsTable&\Cake\ORM\Association\HasMany $Projects
+ * @property \Cake\ORM\Association\HasMany $Users
+ * @property \Cake\ORM\Association\HasMany $Projects
  * @method \App\Model\Entity\Team newEmptyEntity()
  * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Team> newEntities(array $data, array $options = [])

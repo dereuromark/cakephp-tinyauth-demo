@@ -10,10 +10,11 @@ use App\Model\Table\ProjectsTable;
 use Authorization\Policy\Exception\MissingPolicyException;
 use Authorization\Policy\ResolverInterface;
 use Cake\ORM\Query\SelectQuery;
+use TinyAuthBackend\Policy\TinyAuthPolicy;
 
 /**
- * A tiny resolver that returns `TinyAuthScopedPolicy` for every
- * demo entity, table, and select query routed through the
+ * A tiny resolver that returns the plugin's `TinyAuthPolicy` for
+ * every demo entity, table, and select query routed through the
  * Authorization plugin.
  *
  * Cake's `MapResolver` only matches exact class names, which is fine
@@ -44,9 +45,9 @@ class TinyAuthResolver implements ResolverInterface
     ];
 
     /**
-     * @var \App\Policy\TinyAuthScopedPolicy|null
+     * @var \TinyAuthBackend\Policy\TinyAuthPolicy|null
      */
-    protected ?TinyAuthScopedPolicy $policy = null;
+    protected ?TinyAuthPolicy $policy = null;
 
     /**
      * @param object $resource
@@ -67,7 +68,7 @@ class TinyAuthResolver implements ResolverInterface
             throw new MissingPolicyException([$class]);
         }
 
-        $this->policy ??= new TinyAuthScopedPolicy();
+        $this->policy ??= new TinyAuthPolicy();
 
         return $this->policy;
     }

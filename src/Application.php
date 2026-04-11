@@ -143,7 +143,7 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
     /**
      * Wire the Authorization plugin's service with a small custom
      * resolver that hands every demo entity / table / query to the
-     * same `TinyAuthScopedPolicy`. The policy in turn calls
+     * plugin's `TinyAuthPolicy`. The policy in turn calls
      * `TinyAuthBackend\Service\TinyAuthService` against live DB rules.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request

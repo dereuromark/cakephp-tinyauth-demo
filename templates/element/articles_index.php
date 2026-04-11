@@ -17,7 +17,7 @@ $prefix = $strategy['prefix'] ?? 'FullBackend';
     <?php else: ?>
         This list has been narrowed by
         <code>$this->Authorization->applyScope($query, 'index')</code>,
-        which dispatches to <code>TinyAuthScopedPolicy::scopeIndex()</code>
+        which dispatches to <code>TinyAuthPolicy::scopeIndex()</code>
         and applies the <code>own</code> scope for regular users. Switch
         roles via the Demo home page to see the result change.
     <?php endif; ?>

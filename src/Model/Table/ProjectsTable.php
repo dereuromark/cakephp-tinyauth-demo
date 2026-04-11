@@ -12,8 +12,8 @@ use Cake\Validation\Validator;
  *
  * Demonstrates TinyAuth resource-level permissions with both "own" and "team" scopes.
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\BelongsTo $Teams
  * @method \App\Model\Entity\Project newEmptyEntity()
  * @method \App\Model\Entity\Project newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Project> newEntities(array $data, array $options = [])
