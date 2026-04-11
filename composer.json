@@ -17,7 +17,7 @@
     "require-dev": {
         "cakephp/bake": "^3.6",
         "cakephp/debug_kit": "^5.2",
-        "dereuromark/cakephp-ide-helper": "^2.16",
+        "dereuromark/cakephp-ide-helper": "dev-master",
         "josegonzalez/dotenv": "^4.0",
         "php-collective/code-sniffer": "^0.5",
         "phpstan/phpstan": "^2.1",

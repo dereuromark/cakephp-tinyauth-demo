@@ -428,6 +428,7 @@ return [
         'objectAsGenerics' => true,
         'assocsAsGenerics' => true,
         'tableEntityQuery' => true,
+        'genericsInParam' => 'detailed',
         'autoCollectBlacklist' => ['/^\_.+$/i'],
     ],
 

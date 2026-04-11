@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f444b579dac343585d0fdca151f8a63d",
+    "content-hash": "60609ae2f6df2441b4b553986ff8d352",
     "packages": [
         {
             "name": "cakephp/authorization",
@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-tinyauth-backend.git",
-                "reference": "cf846d9d08392aafabb314ad6cf0af468de17b44"
+                "reference": "8dcd06c0854a151aea115cbcd0d818aadb2e31ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/cf846d9d08392aafabb314ad6cf0af468de17b44",
-                "reference": "cf846d9d08392aafabb314ad6cf0af468de17b44",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-tinyauth-backend/zipball/8dcd06c0854a151aea115cbcd0d818aadb2e31ab",
+                "reference": "8dcd06c0854a151aea115cbcd0d818aadb2e31ab",
                 "shasum": ""
             },
             "require": {
@@ -640,7 +640,7 @@
                 "source": "https://github.com/dereuromark/cakephp-tinyauth-backend",
                 "issues": "https://github.com/dereuromark/cakephp-tinyauth-backend/issues"
             },
-            "time": "2026-04-11T16:18:04+00:00"
+            "time": "2026-04-11T16:42:20+00:00"
         },
         {
             "name": "dereuromark/cakephp-tools",
@@ -2417,16 +2417,16 @@
         },
         {
             "name": "dereuromark/cakephp-ide-helper",
-            "version": "2.16.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-ide-helper.git",
-                "reference": "a7f8c408bbf53ff954f1bcebc9c18302548357cf"
+                "reference": "466d3daa26ae31a543c8e56bc7e710d3f154b4c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/a7f8c408bbf53ff954f1bcebc9c18302548357cf",
-                "reference": "a7f8c408bbf53ff954f1bcebc9c18302548357cf",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/466d3daa26ae31a543c8e56bc7e710d3f154b4c7",
+                "reference": "466d3daa26ae31a543c8e56bc7e710d3f154b4c7",
                 "shasum": ""
             },
             "require": {
@@ -2446,6 +2446,7 @@
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^11.5 || ^12.1 || ^13.0"
             },
+            "default-branch": true,
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
@@ -2491,7 +2492,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-08T23:34:39+00:00"
+            "time": "2026-04-11T17:51:48+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -6806,6 +6807,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "dereuromark/cakephp-ide-helper": 20,
         "dereuromark/cakephp-tinyauth-backend": 20
     },
     "prefer-stable": false,
