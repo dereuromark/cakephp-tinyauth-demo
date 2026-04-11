@@ -33,11 +33,11 @@ class DemoIdentityMiddleware implements MiddlewareInterface
             $session = $request->getSession();
         }
 
-        $userId = $session->read('Auth.user_id');
-        if ($userId) {
+        $userId = (int)$session->read('Auth.user_id');
+        if ($userId > 0) {
             $users = TableRegistry::getTableLocator()->get('Users');
             /** @var \Cake\Datasource\EntityInterface|null $user */
-            $user = $users->find()->where(['Users.id' => (int)$userId])->first();
+            $user = $users->find()->where(['Users.id' => $userId])->first();
             if ($user) {
                 // Pass the raw entity — the Authorization plugin's
                 // AuthorizationMiddleware wraps non-IdentityInterface
@@ -46,6 +46,12 @@ class DemoIdentityMiddleware implements MiddlewareInterface
                 // the decoration is skipped and `applyScope()` has
                 // no service to dispatch through.
                 $request = $request->withAttribute('identity', $user);
+            } else {
+                // Stale session — the impersonated user was deleted
+                // out from under us. Drop the whole Auth key so the
+                // next request is a clean guest instead of a zombie
+                // identity the UI keeps flashing up in the switcher.
+                $session->delete('Auth');
             }
         }
 

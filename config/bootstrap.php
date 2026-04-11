@@ -276,6 +276,15 @@ Configure::write(
             ? $identity->get('role_id')
             : ($identity['role_id'] ?? null);
 
-        return $roleId === (Configure::read('Roles.admin') ?? 3);
+        if ($roleId === null) {
+            return false;
+        }
+
+        // Loose-ish compare: the ORM types role_id as int in this
+        // demo, but a downstream copy-paste into an app where the
+        // identity stores it as a string (JSON session, custom
+        // finder, etc.) would silently lock the real admin out with
+        // a strict ===. Cast both sides explicitly instead.
+        return (int)$roleId === (int)(Configure::read('Roles.admin') ?? 3);
     },
 );

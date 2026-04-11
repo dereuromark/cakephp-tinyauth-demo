@@ -37,6 +37,9 @@ class RoleSwitcherController extends AppController
                     ->first();
 
                 if ($user) {
+                    // Rotate session id on privilege change to close
+                    // the session-fixation window.
+                    $session->renew();
                     $session->write('Auth.id', $user->id);
                     $session->write('Auth.user_id', $user->id);
                     $session->write('Auth.role_id', $roleId);
@@ -51,13 +54,18 @@ class RoleSwitcherController extends AppController
                 }
             }
 
+            $session->renew();
             $session->write('Auth.id', $currentUserId ?: 1);
             $session->write('Auth.role_id', $roleId);
             $session->write('Auth.role_name', $roleName);
             $this->Flash->success(__('Switched to role: {0}', $roleName));
         } else {
-            // Clear session (logged out)
-            $this->request->getSession()->delete('Auth');
+            // Clear session (logged out). Destroy fully rather than
+            // just deleting the Auth key so a follow-up login doesn't
+            // reuse the logged-out session id.
+            $session = $this->request->getSession();
+            $session->delete('Auth');
+            $session->renew();
             $this->Flash->success(__('Logged out (no role)'));
         }
 
@@ -72,6 +80,7 @@ class RoleSwitcherController extends AppController
     public function switchUser(): ?Response
     {
         $userId = (int)$this->request->getData('user_id');
+        $session = $this->request->getSession();
 
         if ($userId > 0) {
             $usersTable = $this->fetchTable('Users');
@@ -84,24 +93,31 @@ class RoleSwitcherController extends AppController
                 $rolesTable = $this->fetchTable('TinyAuthBackend.Roles');
                 $role = $rolesTable->find()->where(['id' => $user->role_id])->first();
 
-                $this->request->getSession()->write('Auth.id', $user->id);
-                $this->request->getSession()->write('Auth.user_id', $user->id);
-                $this->request->getSession()->write('Auth.role_id', $user->role_id);
-                $this->request->getSession()->write('Auth.role_name', $role ? $role->alias : 'Unknown');
-                $this->request->getSession()->write('Auth.team_id', $user->team_id);
-                $this->request->getSession()->write('Auth.username', $user->username);
+                // Rotate session id on privilege change to close the
+                // session-fixation window.
+                $session->renew();
+                $session->write('Auth.id', $user->id);
+                $session->write('Auth.user_id', $user->id);
+                $session->write('Auth.role_id', $user->role_id);
+                $session->write('Auth.role_name', $role ? $role->alias : 'Unknown');
+                $session->write('Auth.team_id', $user->team_id);
+                $session->write('Auth.username', $user->username);
 
                 $teamName = $user->team ? $user->team->name : 'No Team';
                 $this->Flash->success(__('Switched to user: {0} ({1}, {2})', $user->username, $role ? $role->alias : 'Unknown', $teamName));
             } else {
+                // Clear any stale identity so the UI doesn't keep
+                // claiming we're logged in as the missing user.
+                $session->delete('Auth');
                 $this->Flash->error(__('User not found'));
             }
         } else {
-            $this->request->getSession()->delete('Auth');
+            $session->delete('Auth');
+            $session->renew();
             $this->Flash->success(__('Logged out'));
         }
 
-        return $this->redirect($this->referer('/'));
+        return $this->redirect('/');
     }
 
     /**
@@ -111,7 +127,9 @@ class RoleSwitcherController extends AppController
      */
     public function clear(): ?Response
     {
-        $this->request->getSession()->delete('Auth');
+        $session = $this->request->getSession();
+        $session->delete('Auth');
+        $session->renew();
         $this->Flash->success(__('Session cleared'));
 
         return $this->redirect('/');
