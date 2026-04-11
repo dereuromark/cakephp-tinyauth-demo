@@ -35,7 +35,7 @@ $prefix = $strategy['prefix'] ?? 'FullBackend';
     <tbody>
         <?php foreach ($articles as $article): ?>
             <tr>
-                <td><?= $this->Html->link(h($article->title), ['action' => 'view', $article->id]) ?></td>
+                <td><?= $this->Html->link($article->title, ['action' => 'view', $article->id]) ?></td>
                 <td><?= h($article->user->username ?? '?') ?></td>
                 <td><?= h($article->status) ?></td>
                 <td>

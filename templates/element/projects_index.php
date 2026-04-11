@@ -31,7 +31,7 @@
     <tbody>
         <?php foreach ($projects as $project): ?>
             <tr>
-                <td><?= $this->Html->link(h($project->name), ['action' => 'view', $project->id]) ?></td>
+                <td><?= $this->Html->link($project->name, ['action' => 'view', $project->id]) ?></td>
                 <td><?= h($project->user->username ?? '?') ?></td>
                 <td><?= h($project->team->name ?? '—') ?></td>
                 <td>
