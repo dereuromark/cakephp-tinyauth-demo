@@ -70,7 +70,9 @@ class ProjectsController extends AppController
         $this->Authorization->authorize($project, 'edit');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $project = $this->Projects->patchEntity($project, $this->request->getData());
+            $project = $this->Projects->patchEntity($project, $this->request->getData(), [
+                'fields' => ['name', 'description'],
+            ]);
             if ($this->Projects->save($project)) {
                 $this->Flash->success(__('Project saved.'));
 

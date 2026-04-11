@@ -19,6 +19,8 @@ class RoleSwitcherController extends AppController
      */
     public function switch(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $roleId = (int)$this->request->getData('role_id');
         $roleName = $this->request->getData('role_name');
 
@@ -79,6 +81,8 @@ class RoleSwitcherController extends AppController
      */
     public function switchUser(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $userId = (int)$this->request->getData('user_id');
         $session = $this->request->getSession();
 
@@ -127,6 +131,8 @@ class RoleSwitcherController extends AppController
      */
     public function clear(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $session = $this->request->getSession();
         $session->delete('Auth');
         $session->renew();

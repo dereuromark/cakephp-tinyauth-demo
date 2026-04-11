@@ -76,7 +76,9 @@ class ArticlesController extends AppController
         $this->Authorization->authorize($article, 'edit');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $article = $this->Articles->patchEntity($article, $this->request->getData());
+            $article = $this->Articles->patchEntity($article, $this->request->getData(), [
+                'fields' => ['title', 'body', 'status'],
+            ]);
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Article saved.'));
 

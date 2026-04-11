@@ -17,7 +17,9 @@ class ExternalRoleSwitcherController extends AppController
      */
     public function switch(): ?Response
     {
-        $role = (string)$this->request->getQuery('role');
+        $this->request->allowMethod(['post']);
+
+        $role = (string)$this->request->getData('role');
         $session = $this->request->getSession();
         if ($role === '') {
             $session->delete('ExternalRoles.role');

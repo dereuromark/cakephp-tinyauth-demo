@@ -27,6 +27,8 @@ class FeatureSwitcherController extends AppController
      */
     public function toggle(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $feature = $this->request->getData('feature');
         $enabled = (bool)$this->request->getData('enabled');
 
@@ -53,6 +55,8 @@ class FeatureSwitcherController extends AppController
      */
     public function update(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $features = [];
         foreach (self::FEATURES as $feature) {
             $features[$feature] = (bool)$this->request->getData($feature);
@@ -71,6 +75,8 @@ class FeatureSwitcherController extends AppController
      */
     public function reset(): ?Response
     {
+        $this->request->allowMethod(['post']);
+
         $this->request->getSession()->delete('TinyAuthFeatures');
         $this->Flash->success(__('Features reset to auto-detect'));
 
