@@ -209,6 +209,42 @@ Reusable conditions for fine-grained entity access control.
 
 ## Implementation Guide
 
+### Wiring `cakephp/authorization`
+
+For the `FullBackend`, `NativeAuth`, and `ExternalRoles` strategies, the demo wires the Authorization plugin with `TinyAuthBackend\Policy\TinyAuthResolver`.
+One allowlist, one policy, both entity checks and query scoping go through the same DB rules:
+
+```php
+// src/Application.php
+use Authorization\AuthorizationService;
+use TinyAuthBackend\Policy\TinyAuthResolver;
+
+public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+{
+    $resolver = new TinyAuthResolver([
+        \App\Model\Entity\Article::class,
+        \App\Model\Entity\Project::class,
+        \App\Model\Table\ArticlesTable::class,
+        \App\Model\Table\ProjectsTable::class,
+    ]);
+
+    return new AuthorizationService($resolver);
+}
+```
+
+Controllers then use the idiomatic calls:
+
+```php
+$article = $this->Articles->get($id);
+$this->Authorization->authorize($article, 'edit');
+
+$query = $this->Authorization->applyScope($this->Articles->find());
+```
+
+Both dispatch through `TinyAuthPolicy` → `TinyAuthService` → DB rules → role hierarchy → scopes.
+
+For apps that don't load `cakephp/authentication`, the plugin also ships `TinyAuthBackend\Identity\EntityIdentity`, a minimal wrapper that turns any Cake entity into a valid `Authorization\IdentityInterface` — drop it on the request under the configured identity attribute from your own middleware and you're done.
+
 ### Using TinyAuthService in Controllers
 
 ```php
