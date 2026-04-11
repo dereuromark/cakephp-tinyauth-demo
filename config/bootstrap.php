@@ -242,3 +242,7 @@ ServerRequest::addDetector('tablet', function ($request) {
 // and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
 // \Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
 // \Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
+
+// (No namespace-filter override needed — PR #17's
+// `resourceNamespaceFilter` default is already `null`, so every
+// registered resource is visible in the admin UI.)

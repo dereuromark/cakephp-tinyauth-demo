@@ -17,7 +17,14 @@ declare(strict_types=1);
 namespace App;
 
 use App\Middleware\DemoFeaturesMiddleware;
+use App\Middleware\DemoIdentityMiddleware;
 use App\Middleware\HostHeaderMiddleware;
+use App\Middleware\StrategyMiddleware;
+use App\Policy\TinyAuthResolver;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -30,6 +37,7 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -39,7 +47,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -53,6 +61,13 @@ class Application extends BaseApplication
 
         // By default, does not allow fallback classes.
         FactoryLocator::add('Table', (new TableLocator())->allowFallbackClass(false));
+
+        // Authorization plugin is loaded via config/plugins.php — it
+        // powers the FullBackend / NativeAuth / ExternalRoles strategy
+        // demos via `$this->Authorization->authorize()` and
+        // `applyScope()`. AdapterOnly deliberately skips loading the
+        // Authorization component in its controllers even though the
+        // plugin is available.
     }
 
     /**
@@ -81,11 +96,35 @@ class Application extends BaseApplication
             // Add routing middleware.
             // If you have a large number of routes connected, turning on routes
             // caching in production could improve performance.
-            // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
 
-            // Demo: Apply feature toggles from session to Configure
+            // Demo: apply feature toggles from session to Configure.
+            // Legacy per-feature escape hatch — the four strategies
+            // are the primary UX.
             ->add(new DemoFeaturesMiddleware())
+
+            // Demo: apply strategy-specific wiring based on the active
+            // route prefix. Must run after routing so the prefix is
+            // available on the request params.
+            ->add(new StrategyMiddleware())
+
+            // Demo: set a request-level identity from session state
+            // written by the role switcher. Replaces what
+            // cakephp/authentication would normally do.
+            ->add(new DemoIdentityMiddleware())
+
+            // Authorization plugin runs entity-level policies. Used by
+            // the FullBackend, NativeAuth, and ExternalRoles strategy
+            // controllers. AdapterOnly controllers deliberately do not
+            // load the Authorization component, so this middleware is
+            // inert for them.
+            ->add(new AuthorizationMiddleware($this, [
+                'requireAuthorizationCheck' => false,
+                'unauthorizedHandler' => [
+                    'className' => 'Authorization.Redirect',
+                    'url' => '/',
+                ],
+            ]))
 
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
@@ -99,6 +138,20 @@ class Application extends BaseApplication
             ]));
 
         return $middlewareQueue;
+    }
+
+    /**
+     * Wire the Authorization plugin's service with a small custom
+     * resolver that hands every demo entity / table / query to the
+     * same `TinyAuthScopedPolicy`. The policy in turn calls
+     * `TinyAuthBackend\Service\TinyAuthService` against live DB rules.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Authorization\AuthorizationServiceInterface
+     */
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+    {
+        return new AuthorizationService(new TinyAuthResolver());
     }
 
     /**
