@@ -28,6 +28,20 @@ $roleColors = ['user' => '#4caf50', 'moderator' => '#ff9800', 'admin' => '#f4433
         Interactive demo for testing TinyAuth features. Switch roles, users, and feature toggles to see how permissions work.
     </p>
 
+    <div style="background: #fff4e0; border: 1px solid #e0a800; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 2rem;">
+        <h3 style="margin-top: 0; color: #b56a00;">🚀 Four Usage Strategies</h3>
+        <p style="margin: 0.5rem 0 1rem;">
+            Four concrete ways to wire the plugin into a real CakePHP app, each running
+            live against the same seed data. Switch roles in the card below, then click
+            into a strategy to see how that wiring behaves.
+        </p>
+        <?= $this->Html->link(
+            'Explore all four strategies →',
+            ['controller' => 'Strategy', 'action' => 'index'],
+            ['style' => 'display:inline-block;background:#b56a00;color:#fff;padding:0.5rem 1rem;border-radius:4px;text-decoration:none;font-weight:bold;']
+        ) ?>
+    </div>
+
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
 
         <!-- Role Switcher -->
