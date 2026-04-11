@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
+ * @var array<\App\Model\Entity\Article>|\Cake\Collection\CollectionInterface<\App\Model\Entity\Article> $articles
  * @var array<string, string>|null $strategy
  */
 $prefix = $strategy['prefix'] ?? 'FullBackend';

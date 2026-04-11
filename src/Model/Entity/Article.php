@@ -18,6 +18,8 @@ use Cake\ORM\Entity;
  * @property string $status
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
+ * @property bool $canEdit
+ * @property bool $canDelete
  *
  * @property \App\Model\Entity\User $user
  */

@@ -420,6 +420,17 @@ return [
         'defaults' => 'php',
     ],
 
+    /*
+     * IDE helper configuration for generated annotations and template analysis.
+     */
+    'IdeHelper' => [
+        'arrayAsGenerics' => true,
+        'objectAsGenerics' => true,
+        'assocsAsGenerics' => true,
+        'tableEntityQuery' => true,
+        'autoCollectBlacklist' => ['/^\_.+$/i'],
+    ],
+
     /**
      * DebugKit configuration.
      *

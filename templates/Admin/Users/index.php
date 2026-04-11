@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var string $pageTitle
  * @var array $currentRole
- * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
+ * @var array<\App\Model\Entity\User>|\Cake\Collection\CollectionInterface<\App\Model\Entity\User> $users
  */
 ?>
 <div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
