@@ -139,6 +139,7 @@ class SeedDemoDataCommand extends Command
      */
     protected function seedPublicActions(ConsoleIo $io): void
     {
+        /** @var \TinyAuthBackend\Model\Table\ActionsTable $actionsTable */
         $actionsTable = $this->fetchTable('TinyAuthBackend.Actions');
 
         // Make certain actions public
@@ -205,6 +206,7 @@ class SeedDemoDataCommand extends Command
      */
     protected function seedUsers(ConsoleIo $io): void
     {
+        /** @var \App\Model\Table\UsersTable $usersTable */
         $usersTable = $this->fetchTable('Users');
         $teamsTable = $this->fetchTable('Teams');
         $rolesTable = $this->fetchTable('TinyAuthBackend.Roles');
@@ -420,8 +422,10 @@ class SeedDemoDataCommand extends Command
      */
     protected function seedControllerAcl(ConsoleIo $io): void
     {
+        /** @var \TinyAuthBackend\Model\Table\ActionsTable $actionsTable */
         $actionsTable = $this->fetchTable('TinyAuthBackend.Actions');
         $controllersTable = $this->fetchTable('TinyAuthBackend.TinyauthControllers');
+        /** @var \TinyAuthBackend\Model\Table\AclPermissionsTable $aclTable */
         $aclTable = $this->fetchTable('TinyAuthBackend.AclPermissions');
         $rolesTable = $this->fetchTable('TinyAuthBackend.Roles');
 
@@ -544,6 +548,7 @@ class SeedDemoDataCommand extends Command
     protected function seedSampleArticles(ConsoleIo $io): void
     {
         $articlesTable = $this->fetchTable('Articles');
+        /** @var \App\Model\Table\UsersTable $usersTable */
         $usersTable = $this->fetchTable('Users');
 
         $users = $usersTable->find()->all()->combine('username', 'id')->toArray();
@@ -587,6 +592,7 @@ class SeedDemoDataCommand extends Command
     protected function seedSampleProjects(ConsoleIo $io): void
     {
         $projectsTable = $this->fetchTable('Projects');
+        /** @var \App\Model\Table\UsersTable $usersTable */
         $usersTable = $this->fetchTable('Users');
         $teamsTable = $this->fetchTable('Teams');
 

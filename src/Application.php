@@ -21,6 +21,7 @@ namespace App;
 use App\Middleware\DemoFeaturesMiddleware;
 use App\Middleware\DemoIdentityMiddleware;
 use App\Middleware\HostHeaderMiddleware;
+use App\Middleware\RequestGateMiddleware;
 use App\Middleware\StrategyMiddleware;
 use App\Model\Entity\Article;
 use App\Model\Entity\Project;
@@ -119,6 +120,15 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
             // written by the role switcher. Replaces what
             // cakephp/authentication would normally do.
             ->add(new DemoIdentityMiddleware())
+
+            // Demo: role-level request gate. Walks the
+            // tinyauth_controllers / tinyauth_actions matrix for every
+            // request and 403s when the impersonated role cannot reach
+            // the routed action. Real adopters should use
+            // TinyAuth\Middleware\RequestAuthorizationMiddleware
+            // instead — see RequestGateMiddleware's docblock for why
+            // the demo rolls its own.
+            ->add(new RequestGateMiddleware())
 
             // Authorization plugin runs entity-level policies. Used by
             // the FullBackend, NativeAuth, and ExternalRoles strategy

@@ -45,8 +45,6 @@ class ProjectsController extends AppController
      */
     public function index(): void
     {
-        $this->DemoAuth->requireAuthorization();
-
         $query = $this->Projects->find()
             ->contain(['Users', 'Teams'])
             ->orderBy(['Projects.created' => 'DESC']);
@@ -100,8 +98,6 @@ class ProjectsController extends AppController
      */
     public function view(int $id): void
     {
-        $this->DemoAuth->requireAuthorization();
-
         $project = $this->Projects->find()
             ->contain(['Users', 'Teams'])
             ->where(['Projects.id' => $id])
@@ -140,8 +136,6 @@ class ProjectsController extends AppController
      */
     public function edit(int $id): ?Response
     {
-        $this->DemoAuth->requireAuthorization();
-
         $project = $this->Projects->find()
             ->contain(['Users', 'Teams'])
             ->where(['Projects.id' => $id])
@@ -191,8 +185,6 @@ class ProjectsController extends AppController
     public function delete(int $id): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        $this->DemoAuth->requireAuthorization();
-
         $project = $this->Projects->get($id);
 
         // Check resource permission

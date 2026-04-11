@@ -11,13 +11,23 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Reads the session-backed fake-login state written by the role
- * switcher and exposes it as an `identity` request attribute so the
- * Authorization plugin can pick it up.
+ * Demo-only identity middleware.
  *
- * This replaces what cakephp/authentication's IdentityMiddleware does
- * in a production app — the demo skips real auth and lets visitors
- * impersonate any seeded user via the switcher.
+ * ## Why this exists
+ *
+ * Real apps do this via `cakephp/authentication`'s
+ * `AuthenticationMiddleware` + a real login form. This demo doesn't
+ * have a real login flow — visitors impersonate any seeded user via
+ * the switcher dropdown on the home page, which writes `Auth.user_id`
+ * / `Auth.role_id` / `Auth.team_id` to the session. This middleware
+ * just translates that session state into the `identity` request
+ * attribute that `cakephp/authorization` and the demo's own
+ * `RequestGateMiddleware` expect.
+ *
+ * If you are copying code out of this demo for a real project, delete
+ * this middleware and use `cakephp/authentication` instead. The
+ * session-based impersonation pattern used here is exclusively a
+ * teaching device.
  */
 class DemoIdentityMiddleware implements MiddlewareInterface
 {

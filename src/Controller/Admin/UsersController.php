@@ -33,7 +33,6 @@ class UsersController extends AppController
      */
     public function index(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
         $this->set('pageTitle', 'Admin: Users');
         // Mock users data for demo
@@ -49,7 +48,6 @@ class UsersController extends AppController
      */
     public function view(?string $id = null): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
         $this->set('pageTitle', 'View User');
     }
@@ -61,7 +59,6 @@ class UsersController extends AppController
      */
     public function add(): ?Response
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
         $this->set('pageTitle', 'Add User');
 
@@ -77,7 +74,6 @@ class UsersController extends AppController
      */
     public function delete(?string $id = null): ?Response
     {
-        $this->DemoAuth->requireAuthorization();
         $this->request->allowMethod(['post', 'delete']);
         $this->Flash->error(__('Demo mode - delete disabled.'));
 

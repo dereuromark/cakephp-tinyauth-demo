@@ -1,10 +1,7 @@
 parameters:
-	level: 5
+	level: 8
 	treatPhpDocTypesAsCertain: false
 	bootstrapFiles:
 		- config/bootstrap.php
 	paths:
 		- src/
-	ignoreErrors:
-		# TinyAuth Role entity parent_id access
-		- '#Access to an undefined property Cake\\Datasource\\EntityInterface::\$parent_id#'

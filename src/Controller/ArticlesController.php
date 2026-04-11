@@ -43,8 +43,6 @@ class ArticlesController extends AppController
      */
     public function index(): void
     {
-        $this->DemoAuth->requireAuthorization();
-
         $query = $this->Articles->find()
             ->contain(['Users'])
             ->orderBy(['Articles.created' => 'DESC']);
@@ -100,8 +98,6 @@ class ArticlesController extends AppController
      */
     public function view(int $id): void
     {
-        $this->DemoAuth->requireAuthorization();
-
         $article = $this->Articles->find()
             ->contain(['Users'])
             ->where(['Articles.id' => $id])
@@ -142,8 +138,6 @@ class ArticlesController extends AppController
      */
     public function edit(int $id): ?Response
     {
-        $this->DemoAuth->requireAuthorization();
-
         $article = $this->Articles->find()
             ->contain(['Users'])
             ->where(['Articles.id' => $id])
@@ -194,8 +188,6 @@ class ArticlesController extends AppController
     public function delete(int $id): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        $this->DemoAuth->requireAuthorization();
-
         $article = $this->Articles->get($id);
 
         // Check resource permission

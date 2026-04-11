@@ -29,7 +29,6 @@ class DashboardController extends AppController
      */
     public function index(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('pageTitle', 'Dashboard');
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
     }
@@ -41,7 +40,6 @@ class DashboardController extends AppController
      */
     public function stats(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('pageTitle', 'Statistics');
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
     }

@@ -29,7 +29,6 @@ class ReportsController extends AppController
      */
     public function index(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('pageTitle', 'Reports Overview');
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
     }
@@ -41,7 +40,6 @@ class ReportsController extends AppController
      */
     public function usage(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('pageTitle', 'Usage Report');
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
     }
@@ -53,7 +51,6 @@ class ReportsController extends AppController
      */
     public function audit(): void
     {
-        $this->DemoAuth->requireAuthorization();
         $this->set('pageTitle', 'Audit Log');
         $this->set('currentRole', $this->DemoAuth->getCurrentRole());
     }
