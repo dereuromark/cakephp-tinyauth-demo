@@ -4,23 +4,105 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Query\SelectQuery;
-use TinyAuthBackend\Policy\TinyAuthPolicy;
+use TinyAuthBackend\Service\TinyAuthService;
 
 /**
- * Extends TinyAuthPolicy with `scope*()` methods so CakePHP
- * Authorization's `$this->Authorization->applyScope($query)` works
- * against DB-managed scopes.
+ * Full entity-level policy for the demo, implemented directly
+ * against `TinyAuthBackend\Service\TinyAuthService` instead of
+ * extending `TinyAuthBackend\Policy\TinyAuthPolicy`.
  *
- * The upstream plugin's policy only checks individual entities; this
- * subclass bridges to `TinyAuthService::getScopeCondition()` so the
- * same scope rows that drive entity-level checks also narrow list
- * queries. Kept in the demo for now; a good follow-up PR moves this
- * into the plugin itself.
+ * **Why not extend `TinyAuthPolicy`:** the upstream policy's
+ * `canView(EntityInterface $user, ...)` signature is incompatible
+ * with CakePHP Authorization's calling convention — Authorization
+ * passes `?IdentityInterface $identity`, and PHP's LSP rules forbid
+ * loosening the parameter type in an override. Composition side-
+ * steps this cleanly.
+ *
+ * **What it adds on top of TinyAuthService:**
+ *
+ * - Identity-aware `can*()` methods that match Cake Authorization's
+ *   dispatch convention (`canView` / `canEdit` / `canDelete`).
+ * - `scopeIndex()` / `scopeView()` that apply
+ *   `getScopeCondition()` to a query so
+ *   `$this->Authorization->applyScope($query)` narrows list results.
+ * - A `before()` hook that bypasses for a configurable super-admin
+ *   role (`TinyAuthBackend.superAdminRole`), matching the upstream
+ *   policy's behavior.
+ *
+ * This whole class is a good follow-up upstream contribution once
+ * the plugin's policy method signatures are relaxed.
  */
-class TinyAuthScopedPolicy extends TinyAuthPolicy
+class TinyAuthScopedPolicy implements BeforePolicyInterface
 {
+    protected TinyAuthService $service;
+
+    /**
+     * @param \TinyAuthBackend\Service\TinyAuthService|null $service
+     */
+    public function __construct(?TinyAuthService $service = null)
+    {
+        $this->service = $service ?? new TinyAuthService();
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return bool|null
+     */
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ?bool
+    {
+        if ($identity === null) {
+            return false;
+        }
+
+        $user = $identity->getOriginalData();
+        if (!$user instanceof EntityInterface) {
+            return false;
+        }
+
+        $roles = $this->service->getUserRoles($user);
+        if (array_intersect($roles, $this->superAdminRoles())) {
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return bool
+     */
+    public function canView(?IdentityInterface $identity, EntityInterface $entity): bool
+    {
+        return $this->check($identity, 'view', $entity);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return bool
+     */
+    public function canEdit(?IdentityInterface $identity, EntityInterface $entity): bool
+    {
+        return $this->check($identity, 'edit', $entity);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return bool
+     */
+    public function canDelete(?IdentityInterface $identity, EntityInterface $entity): bool
+    {
+        return $this->check($identity, 'delete', $entity);
+    }
+
     /**
      * @param \Authorization\IdentityInterface|null $identity
      * @param \Cake\ORM\Query\SelectQuery $query
@@ -42,15 +124,28 @@ class TinyAuthScopedPolicy extends TinyAuthPolicy
     }
 
     /**
-     * Resolve scope conditions for the current identity and apply
-     * them to the query. Handles the three states
-     * `TinyAuthService::getScopeCondition()` returns:
-     *
-     *   - `null` → no access; the query is forced empty so no rows leak.
-     *   - `[]`  → full access; the query is returned untouched.
-     *   - `[...]` → scoped access; conditions are applied with
-     *     table-qualified field names and `IS NULL` for null values.
-     *
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param string $ability
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @return bool
+     */
+    protected function check(?IdentityInterface $identity, string $ability, EntityInterface $entity): bool
+    {
+        if ($identity === null) {
+            return false;
+        }
+        $user = $identity->getOriginalData();
+        if (!$user instanceof EntityInterface) {
+            return false;
+        }
+
+        $roles = $this->service->getUserRoles($user);
+        $resource = $this->resourceNameFor($entity);
+
+        return $this->service->canAccess($roles, $resource, $ability, $entity, $user);
+    }
+
+    /**
      * @param \Authorization\IdentityInterface|null $identity
      * @param \Cake\ORM\Query\SelectQuery $query
      * @param string $ability
@@ -66,9 +161,15 @@ class TinyAuthScopedPolicy extends TinyAuthPolicy
             return $query->where(['1 = 0']);
         }
 
-        $resource = $this->resourceForQuery($query);
-        $roles = $this->getTinyAuthService()->getUserRoles($user);
-        $conditions = $this->getTinyAuthService()->getScopeCondition($roles, $resource, $ability, $user);
+        $roles = $this->service->getUserRoles($user);
+
+        // Admins bypass scoping entirely — no WHERE narrowing.
+        if (array_intersect($roles, $this->superAdminRoles())) {
+            return $query;
+        }
+
+        $resource = $this->resourceNameFor($this->entityForQuery($query));
+        $conditions = $this->service->getScopeCondition($roles, $resource, $ability, $user);
 
         if ($conditions === null) {
             return $query->where(['1 = 0']);
@@ -81,25 +182,51 @@ class TinyAuthScopedPolicy extends TinyAuthPolicy
     }
 
     /**
-     * Derive the resource class name from a query. Uses the repository's
-     * entity class so the lookup matches how `TinyAuthPolicy::can()`
-     * already resolves single-entity checks.
-     *
-     * @param \Cake\ORM\Query\SelectQuery $query
+     * @param \Cake\Datasource\EntityInterface $entity
      * @return string
      */
-    protected function resourceForQuery(SelectQuery $query): string
+    protected function resourceNameFor(EntityInterface $entity): string
     {
-        /** @var \Cake\ORM\Table $repository */
-        $repository = $query->getRepository();
-
-        return $repository->getEntityClass();
+        return get_class($entity);
     }
 
     /**
-     * Table-qualify the scope conditions returned by TinyAuthService
-     * so they don't collide with joined tables, and translate explicit
-     * nulls into `field IS` form.
+     * @param \Cake\ORM\Query\SelectQuery $query
+     * @return \Cake\Datasource\EntityInterface
+     */
+    protected function entityForQuery(SelectQuery $query): EntityInterface
+    {
+        /** @var \Cake\ORM\Table $repository */
+        $repository = $query->getRepository();
+        $class = $repository->getEntityClass();
+
+        /** @var \Cake\Datasource\EntityInterface $prototype */
+        $prototype = new $class();
+
+        return $prototype;
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function superAdminRoles(): array
+    {
+        $role = Configure::read('TinyAuthBackend.superAdminRole')
+            ?? Configure::read('TinyAuth.superAdminRole');
+
+        if (is_string($role) && $role !== '') {
+            return [$role];
+        }
+        if (is_array($role)) {
+            return array_values(array_filter($role, 'is_string'));
+        }
+
+        return ['admin', 'superadmin'];
+    }
+
+    /**
+     * Table-qualify the scope conditions so they don't collide with
+     * joined tables, and translate null values into `IS NULL`.
      *
      * @param array<string, mixed> $conditions
      * @param \Cake\ORM\Query\SelectQuery $query

@@ -58,9 +58,15 @@ class DemoIdentity implements IdentityInterface {
 	}
 
 	/**
-	 * @return \Cake\Datasource\EntityInterface
+	 * Returns the underlying user entity. The Authorization plugin's
+	 * interface declares this return type as `ArrayAccess|array`; a
+	 * CakePHP entity satisfies that since `EntityInterface` extends
+	 * `ArrayAccess`. The TinyAuthPolicy::before() hook downcasts to
+	 * `EntityInterface` at runtime.
+	 *
+	 * @return \ArrayAccess<string, mixed>|array<string, mixed>
 	 */
-	public function getOriginalData(): mixed {
+	public function getOriginalData(): ArrayAccess|array {
 		return $this->user;
 	}
 

@@ -21,21 +21,16 @@ use Cake\Http\Response;
 class ArticlesController extends AppController
 {
     /**
-     * @return void
+     * @var string|null
      */
-    public function initialize(): void
-    {
-        parent::initialize();
-
-        $this->Articles = $this->fetchTable('Articles');
-    }
+    protected ?string $defaultTable = 'Articles';
 
     /**
      * @return void
      */
     public function index(): void
     {
-        $query = $this->Articles->find()
+        $query = $this->fetchTable('Articles')->find()
             ->contain(['Users'])
             ->orderBy(['Articles.created' => 'DESC']);
 
@@ -73,8 +68,8 @@ class ArticlesController extends AppController
         $this->Authorization->authorize($article, 'edit');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $article = $this->Articles->patchEntity($article, $this->request->getData());
-            if ($this->Articles->save($article)) {
+            $article = $this->fetchTable('Articles')->patchEntity($article, $this->request->getData());
+            if ($this->fetchTable('Articles')->save($article)) {
                 $this->Flash->success(__('Article saved.'));
 
                 return $this->redirect(['action' => 'view', $article->id]);
@@ -95,10 +90,10 @@ class ArticlesController extends AppController
     public function delete(int $id): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        $article = $this->Articles->get($id);
+        $article = $this->fetchTable('Articles')->get($id);
         $this->Authorization->authorize($article, 'delete');
 
-        if ($this->Articles->delete($article)) {
+        if ($this->fetchTable('Articles')->delete($article)) {
             $this->Flash->success(__('Article deleted.'));
         } else {
             $this->Flash->error(__('Could not delete article.'));
@@ -114,7 +109,7 @@ class ArticlesController extends AppController
     protected function loadArticle(int $id): Article
     {
         /** @var \App\Model\Entity\Article|null $article */
-        $article = $this->Articles->find()
+        $article = $this->fetchTable('Articles')->find()
             ->contain(['Users'])
             ->where(['Articles.id' => $id])
             ->first();

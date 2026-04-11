@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-use App\Identity\DemoIdentity;
 use Cake\ORM\TableRegistry;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,7 +38,13 @@ class DemoIdentityMiddleware implements MiddlewareInterface {
 			/** @var \Cake\Datasource\EntityInterface|null $user */
 			$user = $users->find()->where(['Users.id' => (int)$userId])->first();
 			if ($user) {
-				$request = $request->withAttribute('identity', new DemoIdentity($user));
+				// Pass the raw entity — the Authorization plugin's
+				// AuthorizationMiddleware wraps non-IdentityInterface
+				// values in its configured decorator (and injects the
+				// AuthorizationService). If we wrapped it ourselves,
+				// the decoration is skipped and `applyScope()` has
+				// no service to dispatch through.
+				$request = $request->withAttribute('identity', $user);
 			}
 		}
 

@@ -57,4 +57,7 @@ ConnectionHelper::addTestAliases();
 // use Cake\TestSuite\Fixture\SchemaLoader;
 // (new SchemaLoader())->loadSqlFiles('./tests/schema.sql', 'test');
 
-(new Migrator())->run();
+(new Migrator())->runMany([
+    ['connection' => 'test'],
+    ['plugin' => 'TinyAuthBackend', 'connection' => 'test'],
+]);
