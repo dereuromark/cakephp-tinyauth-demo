@@ -16,6 +16,8 @@ use TinyAuthBackend\Service\TinyAuthService;
  *
  * This simulates how TinyAuth authorization works by reading the role from session
  * and checking against the acl_permissions table.
+ *
+ * @method \App\Controller\AppController getController()
  */
 class DemoAuthComponent extends Component
 {

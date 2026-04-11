@@ -4,7 +4,7 @@
  *
  * @var \App\View\AppView $this
  * @var string $pageTitle
- * @var array<\App\Model\Entity\Project> $projects
+ * @var \App\Model\Entity\Project[]|\Cake\Collection\CollectionInterface $projects
  * @var \Cake\ORM\Entity|null $currentUser
  * @var array $currentRole
  * @var array|null $conditions

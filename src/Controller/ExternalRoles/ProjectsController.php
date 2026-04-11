@@ -7,6 +7,9 @@ use App\Controller\FullBackend\ProjectsController as FullBackendProjectsControll
 
 /**
  * Projects under the External Roles strategy.
+ *
+ * @property \App\Model\Table\ProjectsTable $Projects
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class ProjectsController extends FullBackendProjectsController
 {

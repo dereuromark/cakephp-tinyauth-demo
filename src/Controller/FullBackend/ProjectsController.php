@@ -14,6 +14,8 @@ use Cake\Http\Response;
  * Projects use the `team` scope (project.team_id = user.team_id) as
  * well as `own`, so they exercise the scopes table more fully than
  * Articles.
+ *
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class ProjectsController extends AppController
 {

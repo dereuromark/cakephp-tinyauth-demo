@@ -10,6 +10,9 @@ use App\Controller\FullBackend\ArticlesController as FullBackendArticlesControll
  * Full Backend — the only difference lives in
  * `StrategyMiddleware`, which points `TinyAuthBackend.roleSource` at
  * a session-backed callable for requests under this prefix.
+ *
+ * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class ArticlesController extends FullBackendArticlesController
 {

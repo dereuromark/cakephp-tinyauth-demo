@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var array<\App\Model\Entity\Project> $projects
+ * @var \App\Model\Entity\Project[]|\Cake\Collection\CollectionInterface $projects
  * @var array<string, string>|null $strategy
  */
 ?>

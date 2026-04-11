@@ -16,6 +16,8 @@ use Cake\Http\Response;
  * `TinyAuthPolicy` (which in turn asks `TinyAuthService` for the
  * active role's scope conditions against the `Article` resource).
  * Entity actions call `authorize()` with the ability name.
+ *
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class ArticlesController extends AppController
 {

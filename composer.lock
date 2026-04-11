@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9944c140e540b0c6bbf53cd8b1cca762",
+    "content-hash": "a6e471e90008483be23d55a83d7cc5be",
     "packages": [
         {
             "name": "cakephp/authorization",
@@ -2468,6 +2468,84 @@
                 }
             ],
             "time": "2025-11-11T04:32:07+00:00"
+        },
+        {
+            "name": "dereuromark/cakephp-ide-helper",
+            "version": "2.16.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-ide-helper.git",
+                "reference": "a7f8c408bbf53ff954f1bcebc9c18302548357cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/a7f8c408bbf53ff954f1bcebc9c18302548357cf",
+                "reference": "a7f8c408bbf53ff954f1bcebc9c18302548357cf",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/bake": "^3.2.0",
+                "cakephp/cakephp": "^5.1.5",
+                "nikic/php-parser": "^5.7",
+                "php": ">=8.2",
+                "phpstan/phpdoc-parser": "^2.1.0",
+                "sebastian/diff": "^6.0 || ^7.0 || ^8.0",
+                "squizlabs/php_codesniffer": "^3.13 || ^4.0"
+            },
+            "require-dev": {
+                "cakephp/migrations": "^4.5.1 || ^5.0",
+                "cakephp/plugin-installer": "^2.0.1",
+                "dereuromark/cakephp-shim": "^3.3.0",
+                "fig-r/psr2r-sniffer": "@stable",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5 || ^12.1 || ^13.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "IdeHelper\\": "src/",
+                    "IdeHelper\\Test\\Fixture\\": "tests/Fixture/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "https://www.dereuromark.de",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Other contributors",
+                    "homepage": "https://github.com/dereuromark/cakephp-ide-helper/graphs/contributors",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CakePHP IdeHelper Plugin to improve auto-completion",
+            "homepage": "https://github.com/dereuromark/cakephp-ide-helper/",
+            "keywords": [
+                "annotations",
+                "autocomplete",
+                "cakephp",
+                "cli",
+                "dev",
+                "ide",
+                "phpdoc",
+                "phpstorm"
+            ],
+            "support": {
+                "issues": "https://github.com/dereuromark/cakephp-ide-helper/issues",
+                "source": "https://github.com/dereuromark/cakephp-ide-helper/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dereuromark",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-04-08T23:34:39+00:00"
         },
         {
             "name": "doctrine/sql-formatter",

@@ -15,6 +15,9 @@ use App\Controller\FullBackend\ArticlesController as FullBackendArticlesControll
  * is intentional here: it demonstrates that the enforcement code
  * (`authorize()` / `applyScope()`) is exactly the same whether or
  * not TinyAuth middleware is in the stack.
+ *
+ * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class ArticlesController extends FullBackendArticlesController
 {

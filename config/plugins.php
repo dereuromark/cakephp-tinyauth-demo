@@ -15,4 +15,9 @@ return [
     'TinyAuthBackend' => [],
     'Authorization' => [],
     'Tools' => [],
+    'IdeHelper' => [
+        'onlyDebug' => true,
+        'onlyCli' => true,
+        'optional' => true,
+    ],
 ];

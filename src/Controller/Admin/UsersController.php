@@ -12,6 +12,7 @@ use Cake\Http\Response;
  * This controller requires admin role
  *
  * @property \App\Controller\Component\DemoAuthComponent $DemoAuth
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AppController
 {
