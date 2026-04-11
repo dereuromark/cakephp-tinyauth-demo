@@ -29,13 +29,13 @@ ddev start
 # Install dependencies
 ddev composer install
 
-# Set up configuration
-cp config/.env.example config/.env
-cp config/app_local.example.php config/app_local.php
+# Set up configuration if the files do not exist yet
+test -f config/.env || cp config/.env.example config/.env
+test -f config/app_local.php || cp config/app_local.example.php config/app_local.php
 
-# Generate a security salt and update config/.env
-php -r "echo bin2hex(random_bytes(32));"
-# Edit config/.env and replace __REPLACE_WITH_YOUR_SALT__
+# Review config/.env and make sure APP_FULL_BASE_URL and SECURITY_SALT are correct.
+# DDEV will usually create config/.env and composer install will usually create
+# config/app_local.php for you on first setup.
 
 # Run migrations
 ddev exec bin/cake migrations migrate
@@ -56,11 +56,11 @@ ddev launch
 
 The demo includes three roles with hierarchical permissions:
 
-| Role | Level | Description |
+| Role | ID | Description |
 |------|-------|-------------|
-| admin | 1 | Full access to everything |
+| admin | 3 | Full access to everything |
 | moderator | 2 | Access to reports and moderation features |
-| user | 3 | Basic user access |
+| user | 1 | Basic user access |
 
 ## Demo Users
 

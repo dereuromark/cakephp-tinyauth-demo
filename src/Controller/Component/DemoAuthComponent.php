@@ -44,14 +44,16 @@ class DemoAuthComponent extends Component
         $action = $action ?? $request->getParam('action');
         $prefix = $request->getParam('prefix');
         $plugin = $request->getParam('plugin');
+        $pluginConditions = $plugin === null
+            ? ['OR' => ['plugin IS' => null, 'plugin' => 'App']]
+            : ['plugin' => $plugin];
 
         // Find the controller in the database
         $controllersTable = TableRegistry::getTableLocator()->get('TinyAuthBackend.TinyauthControllers');
         $controllerEntity = $controllersTable->find()
-            ->where([
+            ->where($pluginConditions + [
                 'name' => $controller,
                 'prefix IS' => $prefix,
-                'plugin IS' => $plugin,
             ])
             ->first();
 
