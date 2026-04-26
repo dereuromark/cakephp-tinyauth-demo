@@ -34,7 +34,8 @@ $this->assign('title', 'Usage Strategies');
     ← <?= $this->Html->link('Back to Demo Home', ['controller' => 'Demo', 'action' => 'index']) ?>
 </p>
 
-<style>
+<?php $cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', ''); ?>
+<style<?= $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '' ?>>
 .strategies { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
 .strategy-card { border: 1px solid #ccc; border-radius: 8px; padding: 1.5rem; background: #fafafa; display: flex; flex-direction: column; }
 .strategy-card__header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem; }

@@ -39,5 +39,15 @@ class AppView extends View
      */
     public function initialize(): void
     {
+        // Override FormHelper templates that ship with inline `style="..."`
+        // attributes so the demo runs cleanly under strict CSP. The default
+        // `hiddenBlock` (used to wrap the CSRF token field on every form) is
+        // `<div style="display:none;">{{content}}</div>`. Replace with the
+        // HTML5 `hidden` attribute, which needs no CSS.
+        $this->loadHelper('Form', [
+            'templates' => [
+                'hiddenBlock' => '<div hidden>{{content}}</div>',
+            ],
+        ]);
     }
 }

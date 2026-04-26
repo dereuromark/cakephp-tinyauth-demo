@@ -17,7 +17,8 @@ if (empty($strategy)) {
 <?php if (($strategy['slug'] ?? null) === \App\Service\Strategy::EXTERNAL_ROLES): ?>
     <?= $this->element('external_role_switcher') ?>
 <?php endif; ?>
-<style>
+<?php $cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', ''); ?>
+<style<?= $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '' ?>>
 .strategy-banner { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border-radius: 6px; margin: 0 0 1rem; background: #f2f2f2; border-left: 4px solid #666; }
 .strategy-banner--info    { border-left-color: #0aa; }
 .strategy-banner--success { border-left-color: #0a0; }

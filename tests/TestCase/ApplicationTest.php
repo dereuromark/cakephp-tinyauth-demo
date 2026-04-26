@@ -20,8 +20,10 @@ namespace App\Test\TestCase;
 
 use App\Application;
 use App\Middleware\HostHeaderMiddleware;
+use App\Middleware\StrictCspMiddleware;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -53,22 +55,28 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * Test bootstrap add DebugKit plugin in debug mode.
+     * DebugKit is currently disabled in config/plugins.php — its inline
+     * toolbar conflicts with strict CSP. Assert it is *not* loaded so a
+     * future re-enable does not silently slip in.
      *
      * @return void
      */
-    public function testBootstrapInDebug(): void
+    public function testDebugKitDisabledForStrictCsp(): void
     {
         Configure::write('debug', true);
         $app = new Application(dirname(__DIR__, 2) . '/config');
         $app->bootstrap();
         $plugins = $app->getPlugins();
 
-        $this->assertTrue($plugins->has('DebugKit'), 'plugins has DebugKit?');
+        $this->assertFalse(
+            $plugins->has('DebugKit'),
+            'DebugKit should remain disabled while the demo runs under strict CSP. See config/plugins.php.',
+        );
     }
 
     /**
-     * testMiddleware
+     * testMiddleware — order matches src/Application.php:
+     *   ErrorHandler → StrictCsp → SecurityHeaders → HostHeader → Asset → Routing → …
      *
      * @return void
      */
@@ -81,10 +89,14 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(ErrorHandlerMiddleware::class, $middleware->current());
         $middleware->seek(1);
-        $this->assertInstanceOf(HostHeaderMiddleware::class, $middleware->current());
+        $this->assertInstanceOf(StrictCspMiddleware::class, $middleware->current());
         $middleware->seek(2);
-        $this->assertInstanceOf(AssetMiddleware::class, $middleware->current());
+        $this->assertInstanceOf(SecurityHeadersMiddleware::class, $middleware->current());
         $middleware->seek(3);
+        $this->assertInstanceOf(HostHeaderMiddleware::class, $middleware->current());
+        $middleware->seek(4);
+        $this->assertInstanceOf(AssetMiddleware::class, $middleware->current());
+        $middleware->seek(5);
         $this->assertInstanceOf(RoutingMiddleware::class, $middleware->current());
     }
 }

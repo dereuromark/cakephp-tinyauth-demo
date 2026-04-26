@@ -15,6 +15,7 @@
  */
 
 $cakeDescription = 'CakePHP: the rapid development php framework';
+$cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', '');
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,6 +29,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon', $this->Url->image('tinyauth-demo-favicon.svg'), ['type' => 'image/svg+xml']) ?>
 
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
+    <?= $this->Html->script('csp-shim', ['defer' => true]) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
