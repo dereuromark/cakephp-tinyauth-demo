@@ -23,6 +23,7 @@ use App\Middleware\DemoIdentityMiddleware;
 use App\Middleware\HostHeaderMiddleware;
 use App\Middleware\RequestGateMiddleware;
 use App\Middleware\StrategyMiddleware;
+use App\Middleware\StrictCspMiddleware;
 use App\Model\Entity\Article;
 use App\Model\Entity\Project;
 use App\Model\Table\ArticlesTable;
@@ -90,6 +91,11 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
             // Catch any exceptions in the lower layers,
             // and make an error page/response
             ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+
+            // Strict Content-Security-Policy: sets `cspNonce` request attribute
+            // and a CSP header that forbids unsafe-eval and unsafe-inline. Runs
+            // early so every other middleware/handler can read the nonce.
+            ->add(new StrictCspMiddleware())
 
             // Validate Host header to prevent Host Header Injection attacks.
             // In production, ensures App.fullBaseUrl is configured and validates

@@ -35,7 +35,8 @@ $roles = ['user', 'moderator', 'admin'];
     <button type="submit" class="ext-role-btn ext-role-btn--clear">clear</button>
     <?= $this->Form->end() ?>
 </div>
-<style>
+<?php $cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', ''); ?>
+<style<?= $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '' ?>>
 .external-role-switcher { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #fffbea; border-left: 4px solid #d80; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem; }
 .external-role-switcher__form { margin: 0; }
 .ext-role-btn { padding: 0.2rem 0.6rem; border: 1px solid #aaa; border-radius: 3px; text-decoration: none; font-size: 0.85rem; background: #fff; }

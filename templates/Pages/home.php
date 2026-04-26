@@ -98,79 +98,79 @@ endif;
                         $currentRoleId = $session->read('Auth.role_id');
                         $currentRoleName = $session->read('Auth.role_name');
                         ?>
-                        <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #2196f3;">
-                            <h4 style="margin-top: 0;">Current Session</h4>
+                        <div data-style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #2196f3;">
+                            <h4 data-style="margin-top: 0;">Current Session</h4>
                             <?php if ($currentRoleId) { ?>
-                                <p style="margin-bottom: 1rem;">
+                                <p data-style="margin-bottom: 1rem;">
                                     <strong>Role:</strong>
-                                    <span style="background: #4caf50; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: bold;">
+                                    <span data-style="background: #4caf50; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: bold;">
                                         <?= h($currentRoleName) ?> (ID: <?= $currentRoleId ?>)
                                     </span>
                                 </p>
                             <?php } else { ?>
-                                <p style="margin-bottom: 1rem;">
+                                <p data-style="margin-bottom: 1rem;">
                                     <strong>Status:</strong>
-                                    <span style="background: #9e9e9e; color: white; padding: 0.25rem 0.75rem; border-radius: 4px;">
+                                    <span data-style="background: #9e9e9e; color: white; padding: 0.25rem 0.75rem; border-radius: 4px;">
                                         Not logged in
                                     </span>
                                 </p>
                             <?php } ?>
 
-                            <p style="margin-bottom: 0.5rem;"><strong>Switch Role:</strong></p>
-                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'style' => 'display: inline; margin: 0;']) ?>
+                            <p data-style="margin-bottom: 0.5rem;"><strong>Switch Role:</strong></p>
+                            <div data-style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'data-style' => 'display: inline; margin: 0;']) ?>
                                     <?= $this->Form->hidden('role_id', ['value' => 0]) ?>
                                     <?= $this->Form->hidden('role_name', ['value' => '']) ?>
-                                    <button type="submit" style="background: #9e9e9e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= !$currentRoleId ? 'outline: 2px solid #333;' : '' ?>">
+                                    <button type="submit" data-style="background: #9e9e9e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= !$currentRoleId ? 'outline: 2px solid #333;' : '' ?>">
                                         Guest (No Role)
                                     </button>
                                 <?= $this->Form->end() ?>
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'style' => 'display: inline; margin: 0;']) ?>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'data-style' => 'display: inline; margin: 0;']) ?>
                                     <?= $this->Form->hidden('role_id', ['value' => 1]) ?>
                                     <?= $this->Form->hidden('role_name', ['value' => 'user']) ?>
-                                    <button type="submit" style="background: #2196f3; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 1 ? 'outline: 2px solid #333;' : '' ?>">
+                                    <button type="submit" data-style="background: #2196f3; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 1 ? 'outline: 2px solid #333;' : '' ?>">
                                         User (ID: 1)
                                     </button>
                                 <?= $this->Form->end() ?>
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'style' => 'display: inline; margin: 0;']) ?>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'data-style' => 'display: inline; margin: 0;']) ?>
                                     <?= $this->Form->hidden('role_id', ['value' => 2]) ?>
                                     <?= $this->Form->hidden('role_name', ['value' => 'moderator']) ?>
-                                    <button type="submit" style="background: #ff9800; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 2 ? 'outline: 2px solid #333;' : '' ?>">
+                                    <button type="submit" data-style="background: #ff9800; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 2 ? 'outline: 2px solid #333;' : '' ?>">
                                         Moderator (ID: 2)
                                     </button>
                                 <?= $this->Form->end() ?>
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'style' => 'display: inline; margin: 0;']) ?>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switch'], 'data-style' => 'display: inline; margin: 0;']) ?>
                                     <?= $this->Form->hidden('role_id', ['value' => 3]) ?>
                                     <?= $this->Form->hidden('role_name', ['value' => 'admin']) ?>
-                                    <button type="submit" style="background: #f44336; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 3 ? 'outline: 2px solid #333;' : '' ?>">
+                                    <button type="submit" data-style="background: #f44336; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; <?= $currentRoleId == 3 ? 'outline: 2px solid #333;' : '' ?>">
                                         Admin (ID: 3)
                                     </button>
                                 <?= $this->Form->end() ?>
                             </div>
-                            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            <p data-style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
                                 Select a role to simulate authentication. Then visit the sample controllers below to test access control.
                             </p>
                         </div>
 
                         <!-- User Switcher for Resource Permissions -->
-                        <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #9c27b0;">
-                            <h4 style="margin-top: 0;">Switch User (Resource Permissions Demo)</h4>
+                        <div data-style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #9c27b0;">
+                            <h4 data-style="margin-top: 0;">Switch User (Resource Permissions Demo)</h4>
                             <?php
                             $currentUserId = $session->read('Auth.user_id');
                             $currentUsername = $session->read('Auth.username');
                             $currentTeamId = $session->read('Auth.team_id');
                             ?>
                             <?php if ($currentUserId) { ?>
-                                <p style="margin-bottom: 1rem;">
+                                <p data-style="margin-bottom: 1rem;">
                                     <strong>Current User:</strong>
-                                    <span style="background: #9c27b0; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: bold;">
+                                    <span data-style="background: #9c27b0; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: bold;">
                                         <?= h($currentUsername) ?> (ID: <?= $currentUserId ?>, Team: <?= $currentTeamId ?? 'None' ?>)
                                     </span>
                                 </p>
                             <?php } ?>
 
-                            <p style="margin-bottom: 0.5rem;"><strong>Select User Identity:</strong></p>
-                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                            <p data-style="margin-bottom: 0.5rem;"><strong>Select User Identity:</strong></p>
+                            <div data-style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
                                 <?php
                                 $demoUsers = [
                                     ['id' => 1, 'name' => 'alice', 'role' => 'User', 'team' => 'Engineering', 'color' => '#4caf50'],
@@ -181,16 +181,16 @@ endif;
                                 ];
                                 foreach ($demoUsers as $user) {
                                     $isSelected = $currentUserId == $user['id'];
-                                    echo $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switchUser'], 'style' => 'display: inline; margin: 0;']);
+                                    echo $this->Form->create(null, ['url' => ['controller' => 'RoleSwitcher', 'action' => 'switchUser'], 'data-style' => 'display: inline; margin: 0;']);
                                     echo $this->Form->hidden('user_id', ['value' => $user['id']]);
-                                    echo '<button type="submit" style="background: ' . $user['color'] . '; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; ' . ($isSelected ? 'outline: 2px solid #333;' : '') . '">';
+                                    echo '<button type="submit" data-style="background: ' . $user['color'] . '; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; ' . ($isSelected ? 'outline: 2px solid #333;' : '') . '">';
                                     echo h($user['name']) . '<br><small>' . h($user['role']) . ' / ' . h($user['team']) . '</small>';
                                     echo '</button>';
                                     echo $this->Form->end();
                                 }
                                 ?>
                             </div>
-                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                            <p data-style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
                                 Select a user to test resource-level permissions. Try the
                                 <a href="/articles">Articles</a> (own scope) and
                                 <a href="/projects">Projects</a> (team scope) demos.
@@ -198,9 +198,9 @@ endif;
                         </div>
 
                         <!-- Feature Toggles -->
-                        <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ff9800;">
-                            <h4 style="margin-top: 0;">Feature Toggles</h4>
-                            <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                        <div data-style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ff9800;">
+                            <h4 data-style="margin-top: 0;">Feature Toggles</h4>
+                            <p data-style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
                                 Simulate different feature configurations. These override the auto-detected settings.
                             </p>
                             <?php
@@ -215,134 +215,134 @@ endif;
                             ];
                             ?>
                             <?= $this->Form->create(null, ['url' => ['controller' => 'FeatureSwitcher', 'action' => 'update']]) ?>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
+                            <div data-style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
                                 <?php foreach ($allFeatures as $feature) {
                                     $isEnabled = $sessionFeatures[$feature] ?? true; // Default to true (auto-detect usually enables)
                                     $isOverridden = isset($sessionFeatures[$feature]);
                                 ?>
-                                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: <?= $isEnabled ? '#e8f5e9' : '#ffebee' ?>; border-radius: 4px; cursor: pointer; <?= $isOverridden ? 'border: 2px solid #ff9800;' : '' ?>">
+                                <label data-style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: <?= $isEnabled ? '#e8f5e9' : '#ffebee' ?>; border-radius: 4px; cursor: pointer; <?= $isOverridden ? 'border: 2px solid #ff9800;' : '' ?>">
                                     <input type="hidden" name="<?= $feature ?>" value="0">
-                                    <input type="checkbox" name="<?= $feature ?>" value="1" <?= $isEnabled ? 'checked' : '' ?> style="width: 18px; height: 18px;">
-                                    <span style="font-size: 0.9rem;"><?= h($featureLabels[$feature]) ?></span>
+                                    <input type="checkbox" name="<?= $feature ?>" value="1" <?= $isEnabled ? 'checked' : '' ?> data-style="width: 18px; height: 18px;">
+                                    <span data-style="font-size: 0.9rem;"><?= h($featureLabels[$feature]) ?></span>
                                 </label>
                                 <?php } ?>
                             </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button type="submit" style="background: #ff9800; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                            <div data-style="display: flex; gap: 0.5rem;">
+                                <button type="submit" data-style="background: #ff9800; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
                                     Apply Settings
                                 </button>
                                 <?= $this->Form->end() ?>
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'FeatureSwitcher', 'action' => 'reset'], 'style' => 'display: inline; margin: 0;']) ?>
-                                <button type="submit" style="background: #9e9e9e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'FeatureSwitcher', 'action' => 'reset'], 'data-style' => 'display: inline; margin: 0;']) ?>
+                                <button type="submit" data-style="background: #9e9e9e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
                                     Reset to Auto-Detect
                                 </button>
                                 <?= $this->Form->end() ?>
                             </div>
                             <?php if ($sessionFeatures) { ?>
-                            <p style="margin-top: 0.75rem; font-size: 0.85rem; color: #e65100;">
+                            <p data-style="margin-top: 0.75rem; font-size: 0.85rem; color: #e65100;">
                                 <strong>Active Overrides:</strong> <?= implode(', ', array_keys($sessionFeatures)) ?>
                             </p>
                             <?php } ?>
                         </div>
 
-                        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                            <h4 style="margin-top: 0;">Admin Panel</h4>
-                            <p style="margin-bottom: 1rem;">Entry point: <a href="/admin/auth" style="font-weight: bold;">/admin/auth</a> (Dashboard)</p>
-                            <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 0.5rem;">
-                                    <a href="/admin/auth" style="font-weight: bold;">Dashboard</a>
+                        <div data-style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                            <h4 data-style="margin-top: 0;">Admin Panel</h4>
+                            <p data-style="margin-bottom: 1rem;">Entry point: <a href="/admin/auth" data-style="font-weight: bold;">/admin/auth</a> (Dashboard)</p>
+                            <ul data-style="list-style: none; padding: 0; margin: 0;">
+                                <li data-style="margin-bottom: 0.5rem;">
+                                    <a href="/admin/auth" data-style="font-weight: bold;">Dashboard</a>
                                     - Overview, stats, and quick actions
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/acl">ACL Permissions</a>
                                     - Permission matrix for controller actions
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/allow">Allow (Public Actions)</a>
                                     - Toggle public/protected actions
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/roles">Roles</a>
                                     - Manage role hierarchy
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/resources">Resources</a>
                                     - Entity-level permissions
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/scopes">Scopes</a>
                                     - Permission conditions
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/auth/sync">Sync Controllers</a>
                                     - Discover controllers/actions from codebase
                                 </li>
                             </ul>
 
-                            <h4 style="margin-top: 1.5rem;">Sample Controllers (Test Access Levels)</h4>
-                            <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 0.5rem;">
+                            <h4 data-style="margin-top: 1.5rem;">Sample Controllers (Test Access Levels)</h4>
+                            <ul data-style="list-style: none; padding: 0; margin: 0;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/dashboard">Dashboard</a>
                                     - Requires any authenticated user
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/dashboard/stats">Dashboard Stats</a>
                                     - Requires any authenticated user
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/reports">Reports</a>
                                     - Requires moderator or admin role
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/reports/usage">Usage Report</a>
                                     - Requires moderator or admin role
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/reports/audit">Audit Log</a>
                                     - Requires moderator or admin role
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
+                                <li data-style="margin-bottom: 0.5rem;">
                                     <a href="/admin/users">Admin: Users</a>
                                     - Requires admin role only
                                 </li>
                             </ul>
 
-                            <h4 style="margin-top: 1.5rem;">Resource Permissions Demo (Entity-Level)</h4>
-                            <ul style="list-style: none; padding: 0; margin: 0;">
-                                <li style="margin-bottom: 0.5rem;">
-                                    <a href="/articles" style="color: #9c27b0; font-weight: bold;">Articles</a>
+                            <h4 data-style="margin-top: 1.5rem;">Resource Permissions Demo (Entity-Level)</h4>
+                            <ul data-style="list-style: none; padding: 0; margin: 0;">
+                                <li data-style="margin-bottom: 0.5rem;">
+                                    <a href="/articles" data-style="color: #9c27b0; font-weight: bold;">Articles</a>
                                     - Demonstrates "own" scope (users can edit/delete only their own articles)
                                 </li>
-                                <li style="margin-bottom: 0.5rem;">
-                                    <a href="/projects" style="color: #9c27b0; font-weight: bold;">Projects</a>
+                                <li data-style="margin-bottom: 0.5rem;">
+                                    <a href="/projects" data-style="color: #9c27b0; font-weight: bold;">Projects</a>
                                     - Demonstrates "team" scope (users can view projects from their team)
                                 </li>
                             </ul>
 
-                            <h4 style="margin-top: 1.5rem;">Configured Roles</h4>
-                            <table style="width: 100%; border-collapse: collapse; background: white;">
+                            <h4 data-style="margin-top: 1.5rem;">Configured Roles</h4>
+                            <table data-style="width: 100%; border-collapse: collapse; background: white;">
                                 <thead>
-                                    <tr style="background: #f5f5f5;">
-                                        <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Role</th>
-                                        <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">ID</th>
-                                        <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Access</th>
+                                    <tr data-style="background: #f5f5f5;">
+                                        <th data-style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Role</th>
+                                        <th data-style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">ID</th>
+                                        <th data-style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">Access</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">user</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">1</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">Dashboard only</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">user</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">1</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">Dashboard only</td>
                                     </tr>
                                     <tr>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">moderator</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">2</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">Dashboard + Reports</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">moderator</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">2</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">Dashboard + Reports</td>
                                     </tr>
                                     <tr>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">admin</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">3</td>
-                                        <td style="padding: 0.5rem; border: 1px solid #ddd;">Full access (all controllers)</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">admin</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">3</td>
+                                        <td data-style="padding: 0.5rem; border: 1px solid #ddd;">Full access (all controllers)</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -351,7 +351,7 @@ endif;
                         <div class="message default text-center">
                             <small>Please be aware that this page will not be shown if you turn off debug mode unless you replace templates/Pages/home.php with your own version.</small>
                         </div>
-                        <div id="url-rewriting-warning" style="padding: 1rem; background: #fcebea; color: #cc1f1a; border-color: #ef5753;">
+                        <div id="url-rewriting-warning" data-style="padding: 1rem; background: #fcebea; color: #cc1f1a; border-color: #ef5753;">
                             <ul>
                                 <li class="bullet problem">
                                     URL rewriting is not properly configured on your server.<br />

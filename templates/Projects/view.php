@@ -15,67 +15,67 @@
 $isOwner = $currentUser && $project->user_id === $currentUser->id;
 $isSameTeam = $currentUser && $currentUser->team_id && $project->team_id === $currentUser->team_id;
 ?>
-<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+<div data-style="max-width: 800px; margin: 0 auto; padding: 2rem;">
     <h1><?= h($pageTitle) ?></h1>
 
-    <div style="background: #f3e5f5; border: 1px solid #9c27b0; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-        <h3 style="margin-top: 0; color: #7b1fa2;">Permission Check Results</h3>
-        <p style="margin-bottom: 0.5rem;">
+    <div data-style="background: #f3e5f5; border: 1px solid #9c27b0; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+        <h3 data-style="margin-top: 0; color: #7b1fa2;">Permission Check Results</h3>
+        <p data-style="margin-bottom: 0.5rem;">
             <strong>Current Role:</strong> <?= h($currentRole['name'] ?? 'None') ?>
             | <strong>User ID:</strong> <?= $currentUser ? $currentUser->id : 'N/A' ?>
             | <strong>Your Team ID:</strong> <?= $currentUser && $currentUser->team_id ? $currentUser->team_id : 'None' ?>
         </p>
-        <p style="margin-bottom: 0.5rem;">
+        <p data-style="margin-bottom: 0.5rem;">
             <strong>Project Owner:</strong> <?= h($project->user->username ?? 'Unknown') ?> (ID: <?= $project->user_id ?>)
             | <strong>Project Team:</strong> <?= h($project->team->name ?? 'None') ?> (ID: <?= $project->team_id ?? '-' ?>)
         </p>
-        <p style="margin-bottom: 0.5rem;">
+        <p data-style="margin-bottom: 0.5rem;">
             <strong>Your Relationship:</strong>
             <?php if ($isOwner) { ?>
-                <span style="padding: 0.25rem 0.5rem; background: #c8e6c9; color: #2e7d32; border-radius: 4px;">Owner</span>
+                <span data-style="padding: 0.25rem 0.5rem; background: #c8e6c9; color: #2e7d32; border-radius: 4px;">Owner</span>
             <?php } elseif ($isSameTeam) { ?>
-                <span style="padding: 0.25rem 0.5rem; background: #e1bee7; color: #7b1fa2; border-radius: 4px;">Same Team</span>
+                <span data-style="padding: 0.25rem 0.5rem; background: #e1bee7; color: #7b1fa2; border-radius: 4px;">Same Team</span>
             <?php } else { ?>
-                <span style="padding: 0.25rem 0.5rem; background: #ffcdd2; color: #c62828; border-radius: 4px;">No Relationship</span>
+                <span data-style="padding: 0.25rem 0.5rem; background: #ffcdd2; color: #c62828; border-radius: 4px;">No Relationship</span>
             <?php } ?>
         </p>
-        <p style="margin-bottom: 0;">
+        <p data-style="margin-bottom: 0;">
             <strong>Permissions:</strong>
-            <span style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canView ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
+            <span data-style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canView ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
                 View: <?= $canView ? 'Yes' : 'No' ?>
             </span>
-            <span style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canEdit ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
+            <span data-style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canEdit ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
                 Edit: <?= $canEdit ? 'Yes' : 'No' ?>
             </span>
-            <span style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canDelete ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
+            <span data-style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px; <?= $canDelete ? 'background: #c8e6c9; color: #2e7d32;' : 'background: #ffcdd2; color: #c62828;' ?>">
                 Delete: <?= $canDelete ? 'Yes' : 'No' ?>
             </span>
         </p>
     </div>
 
-    <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; <?= $isOwner ? 'border-left: 4px solid #4caf50;' : ($isSameTeam ? 'border-left: 4px solid #9c27b0;' : '') ?>">
-        <h2 style="margin-top: 0;"><?= h($project->name) ?></h2>
+    <div data-style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; <?= $isOwner ? 'border-left: 4px solid #4caf50;' : ($isSameTeam ? 'border-left: 4px solid #9c27b0;' : '') ?>">
+        <h2 data-style="margin-top: 0;"><?= h($project->name) ?></h2>
 
-        <div style="color: #666; margin-bottom: 1rem;">
-            <span style="padding: 0.25rem 0.5rem; background: #e1bee7; color: #7b1fa2; border-radius: 4px; font-size: 0.8rem;">
+        <div data-style="color: #666; margin-bottom: 1rem;">
+            <span data-style="padding: 0.25rem 0.5rem; background: #e1bee7; color: #7b1fa2; border-radius: 4px; font-size: 0.8rem;">
                 <?= h($project->team->name ?? 'No Team') ?>
             </span>
             | Owner: <?= h($project->user->username ?? 'Unknown') ?>
             | Created <?= $project->created->nice() ?>
         </div>
 
-        <div style="line-height: 1.6;">
+        <div data-style="line-height: 1.6;">
             <?= nl2br(h($project->description ?? 'No description')) ?>
         </div>
     </div>
 
-    <div style="margin-bottom: 1.5rem;">
+    <div data-style="margin-bottom: 1.5rem;">
         <?php if ($canEdit) { ?>
             <?= $this->Html->link('Edit Project', ['action' => 'edit', $project->id], [
-                'style' => 'display: inline-block; padding: 0.5rem 1rem; background: #9c27b0; color: white; text-decoration: none; border-radius: 4px; margin-right: 0.5rem;',
+                'data-style' => 'display: inline-block; padding: 0.5rem 1rem; background: #9c27b0; color: white; text-decoration: none; border-radius: 4px; margin-right: 0.5rem;',
             ]) ?>
         <?php } else { ?>
-            <span style="display: inline-block; padding: 0.5rem 1rem; background: #ccc; color: #666; border-radius: 4px; margin-right: 0.5rem; cursor: not-allowed;">
+            <span data-style="display: inline-block; padding: 0.5rem 1rem; background: #ccc; color: #666; border-radius: 4px; margin-right: 0.5rem; cursor: not-allowed;">
                 Edit (No Permission)
             </span>
         <?php } ?>
@@ -83,17 +83,17 @@ $isSameTeam = $currentUser && $currentUser->team_id && $project->team_id === $cu
         <?php if ($canDelete) { ?>
             <?= $this->Form->postLink('Delete Project', ['action' => 'delete', $project->id], [
                 'confirm' => 'Are you sure?',
-                'style' => 'display: inline-block; padding: 0.5rem 1rem; background: #f44336; color: white; text-decoration: none; border-radius: 4px;',
+                'data-style' => 'display: inline-block; padding: 0.5rem 1rem; background: #f44336; color: white; text-decoration: none; border-radius: 4px;',
                 'block' => true,
             ]) ?>
         <?php } else { ?>
-            <span style="display: inline-block; padding: 0.5rem 1rem; background: #ccc; color: #666; border-radius: 4px; cursor: not-allowed;">
+            <span data-style="display: inline-block; padding: 0.5rem 1rem; background: #ccc; color: #666; border-radius: 4px; cursor: not-allowed;">
                 Delete (No Permission)
             </span>
         <?php } ?>
     </div>
 
-    <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px;">
+    <div data-style="background: #f5f5f5; padding: 1rem; border-radius: 8px;">
         <h3>Navigation</h3>
         <ul>
             <li><?= $this->Html->link('Back to Projects', ['action' => 'index']) ?></li>
