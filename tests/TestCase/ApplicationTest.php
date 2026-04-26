@@ -23,6 +23,7 @@ use App\Middleware\HostHeaderMiddleware;
 use App\Middleware\StrictCspMiddleware;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -75,7 +76,7 @@ class ApplicationTest extends TestCase
 
     /**
      * testMiddleware — order matches src/Application.php:
-     *   ErrorHandler → StrictCsp → HostHeader → Asset → Routing → …
+     *   ErrorHandler → StrictCsp → SecurityHeaders → HostHeader → Asset → Routing → …
      *
      * @return void
      */
@@ -90,10 +91,12 @@ class ApplicationTest extends TestCase
         $middleware->seek(1);
         $this->assertInstanceOf(StrictCspMiddleware::class, $middleware->current());
         $middleware->seek(2);
-        $this->assertInstanceOf(HostHeaderMiddleware::class, $middleware->current());
+        $this->assertInstanceOf(SecurityHeadersMiddleware::class, $middleware->current());
         $middleware->seek(3);
-        $this->assertInstanceOf(AssetMiddleware::class, $middleware->current());
+        $this->assertInstanceOf(HostHeaderMiddleware::class, $middleware->current());
         $middleware->seek(4);
+        $this->assertInstanceOf(AssetMiddleware::class, $middleware->current());
+        $middleware->seek(5);
         $this->assertInstanceOf(RoutingMiddleware::class, $middleware->current());
     }
 }

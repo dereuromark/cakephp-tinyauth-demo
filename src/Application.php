@@ -40,6 +40,7 @@ use Cake\Event\EventManagerInterface;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -96,6 +97,22 @@ class Application extends BaseApplication implements AuthorizationServiceProvide
             // and a CSP header that forbids unsafe-eval and unsafe-inline. Runs
             // early so every other middleware/handler can read the nonce.
             ->add(new StrictCspMiddleware())
+
+            // Send the rest of the recommended security headers (X-Frame-
+            // Options, X-Content-Type-Options, Referrer-Policy, Permissions-
+            // Policy, X-Permitted-Cross-Domain-Policies, X-Download-Options).
+            // CSP is set by StrictCspMiddleware above; we don't add it here
+            // again because the helper would emit a static policy and lose
+            // the per-request nonce.
+            ->add(
+                (new SecurityHeadersMiddleware())
+                    ->noOpen()
+                    ->noSniff()
+                    ->setReferrerPolicy('strict-origin-when-cross-origin')
+                    ->setXFrameOptions('deny')
+                    ->setCrossDomainPolicy('none')
+                    ->setPermissionsPolicy('camera=(), microphone=(), geolocation=(), fullscreen=(self)'),
+            )
 
             // Validate Host header to prevent Host Header Injection attacks.
             // In production, ensures App.fullBaseUrl is configured and validates
