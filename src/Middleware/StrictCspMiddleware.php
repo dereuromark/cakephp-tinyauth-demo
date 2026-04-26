@@ -23,8 +23,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  * it is intentionally disabled in the middleware queue when this
  * middleware is active — see Application::middleware().
  *
- * `unpkg.com` is allow-listed for the HTMX script that the
- * TinyAuthBackend layout loads.
+ * No external script/style allowances are needed: TinyAuthBackend 3.1+
+ * self-hosts HTMX and ships a pre-compiled Tailwind CSS, so `'self'` is
+ * sufficient alongside the per-request nonce.
  */
 class StrictCspMiddleware implements MiddlewareInterface
 {
@@ -43,7 +44,7 @@ class StrictCspMiddleware implements MiddlewareInterface
 
         $policy = sprintf(
             "default-src 'self'; "
-            . "script-src 'self' 'nonce-%s' https://unpkg.com; "
+            . "script-src 'self' 'nonce-%s'; "
             . "style-src 'self' 'nonce-%s'; "
             . "img-src 'self' data:; "
             . "connect-src 'self'; "
