@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  *
  * Demonstrates TinyAuth resource-level permissions with "own" scope.
  *
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
  * @method \App\Model\Entity\Article newEmptyEntity()
  * @method \App\Model\Entity\Article newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
@@ -23,13 +24,12 @@ use Cake\Validation\Validator;
  * @method array<\App\Model\Entity\Article> patchEntities(iterable<\App\Model\Entity\Article> $entities, array<array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \Cake\ORM\Query\SelectQuery<\App\Model\Entity\Article> find(string $type = 'all', mixed ...$args)
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Article>|false saveMany(iterable<\App\Model\Entity\Article> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Article> saveManyOrFail(iterable<\App\Model\Entity\Article> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Article>|false deleteMany(iterable<\App\Model\Entity\Article> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Article> deleteManyOrFail(iterable<\App\Model\Entity\Article> $entities, array<string, mixed> $options = [])
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
 {

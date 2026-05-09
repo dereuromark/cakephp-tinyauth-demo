@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  *
  * Supporting model for team-based scope demonstrations.
  *
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  * @property \Cake\ORM\Association\HasMany<\App\Model\Table\UsersTable> $Users
  * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ProjectsTable> $Projects
  * @method \App\Model\Entity\Team newEmptyEntity()
@@ -23,13 +24,12 @@ use Cake\Validation\Validator;
  * @method array<\App\Model\Entity\Team> patchEntities(iterable<\App\Model\Entity\Team> $entities, array<array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \Cake\ORM\Query\SelectQuery<\App\Model\Entity\Team> find(string $type = 'all', mixed ...$args)
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Team>|false saveMany(iterable<\App\Model\Entity\Team> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Team> saveManyOrFail(iterable<\App\Model\Entity\Team> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Team>|false deleteMany(iterable<\App\Model\Entity\Team> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Team> deleteManyOrFail(iterable<\App\Model\Entity\Team> $entities, array<string, mixed> $options = [])
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class TeamsTable extends Table
 {

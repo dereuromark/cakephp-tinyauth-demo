@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  *
  * Demonstrates TinyAuth resource-level permissions with both "own" and "team" scopes.
  *
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
  * @method \App\Model\Entity\Project newEmptyEntity()
@@ -24,13 +25,12 @@ use Cake\Validation\Validator;
  * @method array<\App\Model\Entity\Project> patchEntities(iterable<\App\Model\Entity\Project> $entities, array<array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Project|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Project saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \Cake\ORM\Query\SelectQuery<\App\Model\Entity\Project> find(string $type = 'all', mixed ...$args)
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Project>|false saveMany(iterable<\App\Model\Entity\Project> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Project> saveManyOrFail(iterable<\App\Model\Entity\Project> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Project>|false deleteMany(iterable<\App\Model\Entity\Project> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Project> deleteManyOrFail(iterable<\App\Model\Entity\Project> $entities, array<string, mixed> $options = [])
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ProjectsTable extends Table
 {

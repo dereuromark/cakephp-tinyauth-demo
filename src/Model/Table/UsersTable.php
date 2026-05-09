@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
@@ -25,9 +26,8 @@ use Cake\Validation\Validator;
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User> saveManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User>|false deleteMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User> deleteManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \Cake\ORM\Query\SelectQuery<\App\Model\Entity\User> find(string $type = 'all', mixed ...$args)
- * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
 {
